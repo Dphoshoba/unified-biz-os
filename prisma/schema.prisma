@@ -1,0 +1,559 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// AUTHENTICATION (NextAuth.js)
+// =============================================================================
+
+/// User represents an individual who can access the system.
+/// Users can belong to multiple organizations through memberships.
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // NextAuth relations
+  accounts Account[]
+  sessions Session[]
+
+  // Multi-tenant relations
+  memberships Membership[]
+
+  // User preferences
+  activeOrganizationId String?
+
+  // CRM relations
+  assignedDeals     Deal[]     @relation("AssignedDeals")
+  createdActivities Activity[] @relation("CreatedActivities")
+
+  // Booking relations
+  serviceProviders ServiceProvider[]
+  availabilities   Availability[]
+  providerBookings Booking[]         @relation("ProviderBookings")
+
+  // Invitation relations
+  sentInvitations Invitation[]
+
+  @@map("users")
+}
+
+/// Account stores OAuth provider connections for a user
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+/// Session stores active user sessions
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+/// VerificationToken for email verification and password reset
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// =============================================================================
+// MULTI-TENANT FOUNDATION
+// =============================================================================
+
+/// Organization represents a tenant in the multi-tenant system.
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logo      String?
+  timezone  String   @default("UTC")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  memberships Membership[]
+
+  // CRM relations
+  contacts   Contact[]
+  companies  Company[]
+  deals      Deal[]
+  pipelines  Pipeline[]
+  tags       Tag[]
+  activities Activity[]
+
+  // Booking relations
+  services Service[]
+  bookings Booking[]
+
+  // Invitation relations
+  invitations Invitation[]
+
+  @@map("organizations")
+}
+
+/// Membership is a join table that links Users to Organizations.
+model Membership {
+  id             String         @id @default(cuid())
+  userId         String
+  organizationId String
+  role           MembershipRole @default(MEMBER)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@index([userId])
+  @@index([organizationId])
+  @@map("memberships")
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+/// Invitation represents a pending team invitation
+model Invitation {
+  id             String         @id @default(cuid())
+  email          String
+  organizationId String
+  role           MembershipRole @default(MEMBER)
+  token          String         @unique @default(cuid())
+  expiresAt      DateTime
+  createdAt      DateTime       @default(now())
+  invitedById    String
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invitedBy    User         @relation(fields: [invitedById], references: [id])
+
+  @@unique([email, organizationId])
+  @@index([token])
+  @@index([organizationId])
+  @@map("invitations")
+}
+
+// =============================================================================
+// CRM MODELS
+// =============================================================================
+
+/// Contact represents an individual person in the CRM
+model Contact {
+  id             String        @id @default(cuid())
+  organizationId String
+  companyId      String?
+  firstName      String
+  lastName       String
+  email          String?
+  phone          String?
+  title          String?
+  status         ContactStatus @default(ACTIVE)
+  source         String?
+  avatarUrl      String?
+  notes          String?       @db.Text
+  customFields   Json?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  company      Company?        @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  deals        Deal[]
+  activities   Activity[]
+  tags         TagsOnContacts[]
+  bookings     Booking[]
+
+  @@unique([organizationId, email])
+  @@index([organizationId])
+  @@index([companyId])
+  @@index([status])
+  @@map("contacts")
+}
+
+enum ContactStatus {
+  ACTIVE
+  INACTIVE
+  LEAD
+  CUSTOMER
+  CHURNED
+}
+
+/// Company represents a business/organization in the CRM
+model Company {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  website        String?
+  industry       String?
+  size           String?
+  phone          String?
+  address        String?
+  city           String?
+  state          String?
+  country        String?
+  postalCode     String?
+  logoUrl        String?
+  notes          String?  @db.Text
+  customFields   Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contacts     Contact[]
+  deals        Deal[]
+  activities   Activity[]
+  tags         TagsOnCompanies[]
+
+  @@index([organizationId])
+  @@map("companies")
+}
+
+/// Pipeline represents a sales pipeline with multiple stages
+model Pipeline {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  description    String?
+  isDefault      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  stages       PipelineStage[]
+  deals        Deal[]
+
+  @@index([organizationId])
+  @@map("pipelines")
+}
+
+/// PipelineStage represents a stage within a pipeline
+model PipelineStage {
+  id          String   @id @default(cuid())
+  pipelineId  String
+  name        String
+  color       String   @default("#3B82F6")
+  order       Int
+  probability Int      @default(0) // Win probability percentage
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  pipeline Pipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  deals    Deal[]
+
+  @@index([pipelineId])
+  @@map("pipeline_stages")
+}
+
+/// Deal represents a sales opportunity
+model Deal {
+  id              String     @id @default(cuid())
+  organizationId  String
+  pipelineId      String
+  stageId         String
+  contactId       String?
+  companyId       String?
+  assignedToId    String?
+  name            String
+  value           Decimal    @default(0) @db.Decimal(12, 2)
+  currency        String     @default("USD")
+  status          DealStatus @default(OPEN)
+  expectedCloseDate DateTime?
+  actualCloseDate DateTime?
+  lostReason      String?
+  notes           String?    @db.Text
+  customFields    Json?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pipeline     Pipeline      @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  stage        PipelineStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  contact      Contact?      @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  company      Company?      @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  assignedTo   User?         @relation("AssignedDeals", fields: [assignedToId], references: [id], onDelete: SetNull)
+  activities   Activity[]
+  tags         TagsOnDeals[]
+
+  @@index([organizationId])
+  @@index([pipelineId])
+  @@index([stageId])
+  @@index([contactId])
+  @@index([companyId])
+  @@index([assignedToId])
+  @@index([status])
+  @@map("deals")
+}
+
+enum DealStatus {
+  OPEN
+  WON
+  LOST
+}
+
+/// Activity represents an action or event in the CRM (call, email, meeting, note, etc.)
+model Activity {
+  id             String       @id @default(cuid())
+  organizationId String
+  contactId      String?
+  companyId      String?
+  dealId         String?
+  createdById    String
+  type           ActivityType
+  title          String
+  description    String?      @db.Text
+  scheduledAt    DateTime?
+  completedAt    DateTime?
+  durationMinutes Int?
+  outcome        String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contact      Contact?     @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  company      Company?     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  deal         Deal?        @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  createdBy    User         @relation("CreatedActivities", fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([contactId])
+  @@index([companyId])
+  @@index([dealId])
+  @@index([createdById])
+  @@index([type])
+  @@map("activities")
+}
+
+enum ActivityType {
+  NOTE
+  CALL
+  EMAIL
+  MEETING
+  TASK
+  DEMO
+  FOLLOW_UP
+}
+
+/// Tag for categorizing contacts, companies, and deals
+model Tag {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  color          String   @default("#6B7280")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contacts     TagsOnContacts[]
+  companies    TagsOnCompanies[]
+  deals        TagsOnDeals[]
+
+  @@unique([organizationId, name])
+  @@index([organizationId])
+  @@map("tags")
+}
+
+// Join tables for many-to-many tag relationships
+model TagsOnContacts {
+  contactId String
+  tagId     String
+  createdAt DateTime @default(now())
+
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([contactId, tagId])
+  @@map("tags_on_contacts")
+}
+
+model TagsOnCompanies {
+  companyId String
+  tagId     String
+  createdAt DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([companyId, tagId])
+  @@map("tags_on_companies")
+}
+
+model TagsOnDeals {
+  dealId    String
+  tagId     String
+  createdAt DateTime @default(now())
+
+  deal Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([dealId, tagId])
+  @@map("tags_on_deals")
+}
+
+// =============================================================================
+// BOOKINGS & APPOINTMENTS
+// =============================================================================
+
+/// Service represents a bookable service offered by an organization
+model Service {
+  id              String   @id @default(cuid())
+  organizationId  String
+  name            String
+  description     String?  @db.Text
+  durationMinutes Int      @default(60)
+  price           Decimal  @default(0) @db.Decimal(10, 2)
+  currency        String   @default("USD")
+  color           String   @default("#3B82F6")
+  isActive        Boolean  @default(true)
+  requiresPayment Boolean  @default(false)
+  bufferBefore    Int      @default(0) // Minutes buffer before appointment
+  bufferAfter     Int      @default(0) // Minutes buffer after appointment
+  maxAdvanceDays  Int      @default(60) // How far in advance can book
+  minNoticeMins   Int      @default(60) // Minimum notice required
+  customFields    Json?    // Custom intake form fields
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  providers    ServiceProvider[]
+  bookings     Booking[]
+
+  @@index([organizationId])
+  @@index([isActive])
+  @@map("services")
+}
+
+/// ServiceProvider links services to team members who can provide them
+model ServiceProvider {
+  id        String   @id @default(cuid())
+  serviceId String
+  userId    String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, userId])
+  @@index([serviceId])
+  @@index([userId])
+  @@map("service_providers")
+}
+
+/// Availability defines when a provider is available for bookings
+model Availability {
+  id        String   @id @default(cuid())
+  userId    String
+  dayOfWeek Int      // 0 = Sunday, 6 = Saturday
+  startTime String   // "09:00" format
+  endTime   String   // "17:00" format
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([dayOfWeek])
+  @@map("availabilities")
+}
+
+/// Booking represents a scheduled appointment
+model Booking {
+  id               String        @id @default(cuid())
+  organizationId   String
+  serviceId        String
+  providerId       String        // User who provides the service
+  contactId        String?       // Link to CRM contact if exists
+  status           BookingStatus @default(PENDING)
+  startTime        DateTime
+  endTime          DateTime
+  timezone         String        @default("UTC")
+  
+  // Guest details (if not linked to contact)
+  guestName        String
+  guestEmail       String
+  guestPhone       String?
+  
+  // Meeting details
+  notes            String?       @db.Text
+  internalNotes    String?       @db.Text
+  meetingUrl       String?       // Video call link
+  location         String?       // Physical location or "Virtual"
+  
+  // Intake form responses
+  customResponses  Json?
+  
+  // Reminders
+  reminderSentAt   DateTime?
+  
+  // Cancellation
+  cancelledAt      DateTime?
+  cancelReason     String?
+  cancelledBy      String?       // "guest" or "provider"
+  
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  service      Service      @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  provider     User         @relation("ProviderBookings", fields: [providerId], references: [id], onDelete: Cascade)
+  contact      Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId])
+  @@index([serviceId])
+  @@index([providerId])
+  @@index([contactId])
+  @@index([status])
+  @@index([startTime])
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
