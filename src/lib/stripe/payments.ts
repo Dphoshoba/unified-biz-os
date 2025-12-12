@@ -448,18 +448,25 @@ export async function createStripeConnectLink() {
     }
 
     // Create account link for onboarding
-    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    // Use Vercel URL in production, NEXTAUTH_URL as fallback, then localhost
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL 
+      || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+      || process.env.NEXTAUTH_URL 
+      || 'http://localhost:3000'
+    
     const accountLink = await stripe.accountLinks.create({
       account: stripeAccountId,
-      refresh_url: `${baseUrl}/settings/payments`,
-      return_url: `${baseUrl}/settings/payments?success=true`,
+      refresh_url: `${baseUrl}/payments`,
+      return_url: `${baseUrl}/payments?stripe_connected=true`,
       type: 'account_onboarding',
     })
 
     return { success: true, url: accountLink.url }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to create Stripe Connect link:', error)
-    return { error: 'Failed to create Stripe Connect link' }
+    // Return more specific error message
+    const message = error?.message || 'Failed to create Stripe Connect link'
+    return { error: message }
   }
 }
 
