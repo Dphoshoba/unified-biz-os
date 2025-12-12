@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Link2, Loader2, CheckCircle } from 'lucide-react'
+import { Link2, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { createStripeConnectLink, getStripeConnectStatus } from '@/lib/stripe/payments'
+import { createStripeConnectLink } from '@/lib/stripe/payments'
 
 interface ConnectStripeButtonProps {
   initialStatus?: {
@@ -42,6 +42,21 @@ export function ConnectStripeButton({ initialStatus }: ConnectStripeButtonProps)
     }
   }
 
+  // If Stripe is not configured (missing env vars)
+  if (!initialStatus?.configured) {
+    return (
+      <div className="flex flex-col items-end gap-1">
+        <Button className="rounded-xl" variant="outline" disabled>
+          <AlertCircle className="h-4 w-4 mr-2 text-amber-500" />
+          Stripe Not Configured
+        </Button>
+        <p className="text-xs text-muted-foreground">
+          Add STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY to Vercel
+        </p>
+      </div>
+    )
+  }
+
   // If already connected and setup complete
   if (initialStatus?.connected && initialStatus?.chargesEnabled) {
     return (
@@ -70,6 +85,7 @@ export function ConnectStripeButton({ initialStatus }: ConnectStripeButtonProps)
     )
   }
 
+  // Configured but not connected yet
   return (
     <div className="flex flex-col items-end gap-1">
       <Button 

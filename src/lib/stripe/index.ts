@@ -26,9 +26,18 @@ export const stripe = {
   get webhooks() { return getStripe()!.webhooks },
 }
 
-// Check if Stripe is configured
+// Check if Stripe is configured (only secret key is required for server operations)
 export const isStripeConfigured = () => {
-  return !!(process.env.STRIPE_SECRET_KEY && process.env.STRIPE_PUBLISHABLE_KEY)
+  const secretKey = process.env.STRIPE_SECRET_KEY?.trim()
+  
+  // Debug logging for troubleshooting
+  if (typeof window === 'undefined') {
+    console.log('[Stripe Config] STRIPE_SECRET_KEY exists:', !!secretKey)
+    console.log('[Stripe Config] STRIPE_PUBLISHABLE_KEY exists:', !!process.env.STRIPE_PUBLISHABLE_KEY?.trim())
+  }
+  
+  // Only require secret key for server-side operations
+  return !!secretKey
 }
 
 // Get publishable key for client
