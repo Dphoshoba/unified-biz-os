@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import Stripe from 'stripe'
 import { db } from '@/lib/db'
 import { requireAuthWithOrg } from '@/lib/auth-helpers'
 import { stripe, isStripeConfigured } from './index'
@@ -496,4 +497,5 @@ export async function getStripeConnectStatus() {
     return { configured: true, connected: false }
   }
 }
+
 
