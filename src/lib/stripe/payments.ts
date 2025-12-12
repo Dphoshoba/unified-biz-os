@@ -291,10 +291,14 @@ export async function sendInvoice(invoiceId: string) {
         await stripe.invoiceItems.create({
           customer: stripeCustomerId,
           invoice: stripeInvoice.id,
-          description: item.description,
           quantity: item.quantity,
-          unit_amount: item.unitAmount,
-          currency: invoice.currency,
+          price_data: {
+            currency: invoice.currency,
+            product_data: {
+              name: item.description,
+            },
+            unit_amount: item.unitAmount,
+          },
         })
       }
 
