@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
 import { requireAuthWithOrg, getSession } from '@/lib/auth-helpers'
 import { MembershipRole } from '@prisma/client'
+import { sendEmail, invitationEmailTemplate } from '@/lib/email'
 
 // =============================================================================
 // TYPES
@@ -168,6 +169,12 @@ export async function createInvitation(input: CreateInvitationInput) {
     return { success: true, invitation, renewed: true }
   }
 
+  // Get organization name for the email
+  const organization = await db.organization.findUnique({
+    where: { id: session.activeOrganizationId },
+    select: { name: true },
+  })
+
   // Create new invitation
   const invitation = await db.invitation.create({
     data: {
@@ -179,8 +186,32 @@ export async function createInvitation(input: CreateInvitationInput) {
     },
   })
 
+  // Send invitation email
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+  const inviteUrl = `${baseUrl}/invite/${invitation.token}`
+  
+  const emailData = invitationEmailTemplate({
+    inviterName: session.user.name || session.user.email || 'A team member',
+    organizationName: organization?.name || 'the organization',
+    role: role.charAt(0) + role.slice(1).toLowerCase(), // Format: "Admin" instead of "ADMIN"
+    inviteUrl,
+    expiresAt: invitation.expiresAt,
+  })
+
+  const emailResult = await sendEmail({
+    to: email,
+    subject: `You've been invited to join ${organization?.name || 'a team'} on UnifiedBizOS`,
+    html: emailData.html,
+    text: emailData.text,
+  })
+
+  if (!emailResult.success) {
+    console.warn('Failed to send invitation email:', emailResult.error)
+    // Don't fail the invitation creation, just log the error
+  }
+
   revalidatePath('/settings/team')
-  return { success: true, invitation }
+  return { success: true, invitation, emailSent: emailResult.success }
 }
 
 /**

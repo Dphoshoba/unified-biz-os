@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { 
   Search, 
-  Bell, 
   Sparkles, 
   Menu,
   LogOut,
@@ -22,7 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { cn } from '@/lib/utils'
+import { NotificationBell } from '@/components/notifications/notification-bell'
 
 interface TopBarProps {
   onMenuClick?: () => void
@@ -30,7 +28,6 @@ interface TopBarProps {
 
 export function TopBar({ onMenuClick }: TopBarProps) {
   const { data: session } = useSession()
-  const [hasNotifications] = useState(true)
 
   const user = session?.user
 
@@ -73,17 +70,7 @@ export function TopBar({ onMenuClick }: TopBarProps) {
           </Button>
 
           {/* Notifications */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative rounded-xl"
-          >
-            <Bell className="h-5 w-5" />
-            {hasNotifications && (
-              <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive" />
-            )}
-            <span className="sr-only">Notifications</span>
-          </Button>
+          <NotificationBell />
 
           {/* User Menu */}
           <DropdownMenu>

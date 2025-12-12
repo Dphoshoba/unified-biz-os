@@ -48,6 +48,9 @@ model User {
   // Invitation relations
   sentInvitations Invitation[]
 
+  // Notification relations
+  notifications Notification[]
+
   @@map("users")
 }
 
@@ -110,6 +113,9 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Stripe Connect
+  stripeAccountId String?
+
   // Relations
   memberships Membership[]
 
@@ -127,6 +133,10 @@ model Organization {
 
   // Invitation relations
   invitations Invitation[]
+
+  // Payment relations
+  products Product[]
+  invoices Invoice[]
 
   @@map("organizations")
 }
@@ -197,12 +207,16 @@ model Contact {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
+  // Stripe
+  stripeCustomerId String?
+
   organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   company      Company?        @relation(fields: [companyId], references: [id], onDelete: SetNull)
   deals        Deal[]
   activities   Activity[]
   tags         TagsOnContacts[]
   bookings     Booking[]
+  invoices     Invoice[]
 
   @@unique([organizationId, email])
   @@index([organizationId])
@@ -556,4 +570,126 @@ enum BookingStatus {
   CANCELLED
   COMPLETED
   NO_SHOW
+}
+
+// =============================================================================
+// PAYMENTS & INVOICING
+// =============================================================================
+
+/// Product represents a sellable item or service
+model Product {
+  id              String   @id @default(cuid())
+  organizationId  String
+  name            String
+  description     String?  @db.Text
+  price           Int      // Price in cents
+  currency        String   @default("usd")
+  isActive        Boolean  @default(true)
+  isRecurring     Boolean  @default(false)
+  recurringInterval String? // day, week, month, year
+  
+  // Stripe
+  stripeProductId String?
+  stripePriceId   String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([isActive])
+  @@map("products")
+}
+
+/// Invoice for billing contacts
+model Invoice {
+  id              String        @id @default(cuid())
+  organizationId  String
+  contactId       String
+  invoiceNumber   String
+  status          InvoiceStatus @default(DRAFT)
+  total           Int           // Total in cents
+  currency        String        @default("usd")
+  dueDate         DateTime
+  notes           String?       @db.Text
+  
+  // Stripe
+  stripeInvoiceId String?
+  paymentUrl      String?
+  
+  // Timestamps
+  sentAt          DateTime?
+  paidAt          DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contact      Contact       @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  items        InvoiceItem[]
+
+  @@unique([organizationId, invoiceNumber])
+  @@index([organizationId])
+  @@index([contactId])
+  @@index([status])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String @id @default(cuid())
+  invoiceId   String
+  description String
+  quantity    Int    @default(1)
+  unitAmount  Int    // Price per unit in cents
+  total       Int    // quantity * unitAmount
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+  @@map("invoice_items")
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+// =============================================================================
+// NOTIFICATIONS
+// =============================================================================
+
+/// Notification represents an in-app notification for a user
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  link      String?          // Optional link to navigate to
+  read      Boolean          @default(false)
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  TEAM_INVITE
+  DEAL_UPDATE
+  BOOKING_NEW
+  BOOKING_CANCELLED
+  PAYMENT_RECEIVED
+  MENTION
 }
