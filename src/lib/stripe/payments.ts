@@ -434,9 +434,12 @@ export async function createStripeConnectLink() {
     // Create Stripe Connect account if doesn't exist
     if (!stripeAccountId) {
       const account = await stripe.accounts.create({
-        type: 'standard',
+        type: 'express',
         metadata: {
           organizationId: session.activeOrganizationId,
+        },
+        capabilities: {
+          transfers: { requested: true },
         },
       })
       stripeAccountId = account.id

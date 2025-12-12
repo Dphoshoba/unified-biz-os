@@ -13,9 +13,12 @@ export async function GET() {
       apiVersion: '2025-11-17.clover',
     })
 
-    // Try to create a test account
+    // Try to create a test account (express type to match platform setup)
     const account = await stripe.accounts.create({
-      type: 'standard',
+      type: 'express',
+      capabilities: {
+        transfers: { requested: true },
+      },
       metadata: {
         test: 'true',
       },
