@@ -6,14 +6,14 @@ import {
   Package,
   Receipt,
   RefreshCw,
-  Link2,
 } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { KpiCard } from '@/components/dashboard'
+import { ConnectStripeButton } from './connect-stripe-button'
+import { getStripeConnectStatus } from '@/lib/stripe/payments'
 
 const recentPayments = [
   {
@@ -81,17 +81,16 @@ const modules = [
   },
 ]
 
-export default function PaymentsPage() {
+export default async function PaymentsPage() {
+  const stripeStatus = await getStripeConnectStatus()
+
   return (
     <div className="p-6 lg:p-8 space-y-8">
       <PageHeader
         title="Payments"
         description="Track revenue, manage products, and view transactions."
       >
-        <Button className="rounded-xl">
-          <Link2 className="h-4 w-4 mr-2" />
-          Connect Stripe
-        </Button>
+        <ConnectStripeButton initialStatus={stripeStatus} />
       </PageHeader>
 
       {/* KPI Stats */}
