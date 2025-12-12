@@ -1,4 +1,4 @@
-import { Search, Filter, MoreHorizontal } from 'lucide-react'
+import { Search, Filter, MoreHorizontal, Upload } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout'
 import { Button } from '@/components/ui/button'
@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
+import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 import { getContacts, getContactsCount } from '@/lib/crm'
 import { AddContactDialog } from './add-contact-dialog'
 
@@ -26,7 +27,13 @@ export default async function ContactsPage() {
   return (
     <div className="p-6 lg:p-8">
       <PageHeader title="Contacts" description={`${totalCount} total contacts`}>
-        <AddContactDialog />
+        <div className="flex gap-2">
+          <ComingSoonButton featureName="Import Contacts" variant="outline" className="rounded-xl">
+            <Upload className="h-4 w-4 mr-2" />
+            Import
+          </ComingSoonButton>
+          <AddContactDialog />
+        </div>
       </PageHeader>
 
       {/* Filters */}
@@ -41,13 +48,13 @@ export default async function ContactsPage() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
+              <ComingSoonButton featureName="Filter Contacts" variant="outline" size="sm">
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
-              </Button>
-              <Button variant="outline" size="sm">
+              </ComingSoonButton>
+              <ComingSoonButton featureName="Export Contacts" variant="outline" size="sm">
                 Export
-              </Button>
+              </ComingSoonButton>
             </div>
           </div>
         </CardContent>

@@ -10,11 +10,11 @@ import {
   CheckCircle,
   Download,
 } from 'lucide-react'
-import { format, formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { KpiCard, ActivityItem } from '@/components/dashboard'
+import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 import { requireAuthWithOrg } from '@/lib/auth-helpers'
 import { db } from '@/lib/db'
 
@@ -204,10 +204,10 @@ export default async function DashboardPage() {
             Welcome back! Here's what's happening with your business.
           </p>
         </div>
-        <Button className="w-fit rounded-xl">
+        <ComingSoonButton featureName="Download Report" className="w-fit rounded-xl">
           <Download className="h-4 w-4 mr-2" />
           Download Report
-        </Button>
+        </ComingSoonButton>
       </div>
 
       {/* KPI Cards */}

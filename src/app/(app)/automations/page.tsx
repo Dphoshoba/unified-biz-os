@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { KpiCard } from '@/components/dashboard'
+import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 
 const automations = [
   {
@@ -80,10 +81,10 @@ export default function AutomationsPage() {
         title="Automations"
         description="Create workflows to automate repetitive tasks."
       >
-        <Button className="rounded-xl">
+        <ComingSoonButton featureName="Create Automation" className="rounded-xl">
           <Plus className="h-4 w-4 mr-2" />
           Create Automation
-        </Button>
+        </ComingSoonButton>
       </PageHeader>
 
       {/* KPI Stats */}

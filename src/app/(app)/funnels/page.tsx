@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { KpiCard } from '@/components/dashboard'
+import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 
 const templates = [
   {
@@ -81,10 +82,10 @@ export default function FunnelsPage() {
         title="Funnels"
         description="Create high-converting landing pages and funnels."
       >
-        <Button className="rounded-xl">
+        <ComingSoonButton featureName="Create Funnel" className="rounded-xl">
           <Plus className="h-4 w-4 mr-2" />
           Create Funnel
-        </Button>
+        </ComingSoonButton>
       </PageHeader>
 
       {/* KPI Stats */}

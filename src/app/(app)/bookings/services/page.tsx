@@ -10,6 +10,7 @@ import { KpiCard } from '@/components/dashboard'
 import { getServices } from '@/lib/bookings'
 import { requireAuthWithOrg } from '@/lib/auth-helpers'
 import { db } from '@/lib/db'
+import { AddServiceDialog } from './add-service-dialog'
 
 function formatPrice(price: number, currency: string): string {
   if (price === 0) return 'Free'
@@ -47,10 +48,7 @@ export default async function ServicesPage() {
         title="Services"
         description="Configure your bookable services and pricing."
       >
-        <Button className="rounded-xl">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Service
-        </Button>
+        <AddServiceDialog />
       </PageHeader>
 
       {/* KPI Stats */}
@@ -176,10 +174,7 @@ export default async function ServicesPage() {
           <p className="text-muted-foreground mb-4">
             Create your first bookable service to start accepting appointments.
           </p>
-          <Button className="rounded-xl">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Service
-          </Button>
+          <AddServiceDialog />
         </div>
       )}
     </div>
