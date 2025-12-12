@@ -302,7 +302,7 @@ export async function sendInvoice(invoiceId: string) {
       await stripe.invoices.sendInvoice(stripeInvoice.id)
 
       stripeInvoiceId = stripeInvoice.id
-      paymentUrl = finalizedInvoice.hosted_invoice_url
+      paymentUrl = finalizedInvoice.hosted_invoice_url ?? null
     } catch (error) {
       console.error('Failed to create Stripe invoice:', error)
       // Continue without Stripe
