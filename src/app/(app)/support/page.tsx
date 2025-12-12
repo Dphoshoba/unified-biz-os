@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Search, Book, Video, MessageSquare, ExternalLink } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout'
@@ -39,19 +40,19 @@ const resources = [
     title: 'Getting Started Guide',
     description: 'Learn the basics of UnifiedBizOS',
     icon: Book,
-    href: '#',
+    href: '/docs/getting-started',
   },
   {
     title: 'Video Tutorials',
     description: 'Watch step-by-step tutorials',
     icon: Video,
-    href: '#',
+    href: '/docs/tutorials',
   },
   {
     title: 'Community Forum',
     description: 'Connect with other users',
     icon: MessageSquare,
-    href: '#',
+    href: '/docs/community',
   },
 ]
 
@@ -107,22 +108,24 @@ export default function SupportPage() {
               {resources.map((resource) => {
                 const Icon = resource.icon
                 return (
-                  <Card key={resource.title} className="card-hover cursor-pointer">
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                          <Icon className="h-5 w-5" />
+                  <Link key={resource.title} href={resource.href}>
+                    <Card className="card-hover cursor-pointer hover:border-primary/50 transition-colors">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-medium text-sm">{resource.title}</h4>
+                            <p className="text-xs text-muted-foreground">
+                              {resource.description}
+                            </p>
+                          </div>
+                          <ExternalLink className="h-4 w-4 text-muted-foreground" />
                         </div>
-                        <div className="flex-1">
-                          <h4 className="font-medium text-sm">{resource.title}</h4>
-                          <p className="text-xs text-muted-foreground">
-                            {resource.description}
-                          </p>
-                        </div>
-                        <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 )
               })}
             </div>
