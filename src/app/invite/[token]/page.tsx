@@ -39,7 +39,7 @@ export default async function InvitePage({ params }: InvitePageProps) {
     )
   }
 
-  const { invitation } = result
+  const invitation = result.invitation!
 
   // If not signed in, show sign-in prompt
   if (!session) {
