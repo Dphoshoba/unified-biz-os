@@ -4,14 +4,6 @@
   "buildCommand": "npx prisma generate && npm run build",
   "installCommand": "npm install",
   "regions": ["iad1"],
-  "functions": {
-    "app/**/*.tsx": {
-      "maxDuration": 30
-    },
-    "api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
