@@ -21,7 +21,7 @@ const faqItems = [
   {
     question: 'How do automations work?',
     answer:
-      'Automations run based on triggers (like new form submission or booking). When a trigger fires, the associated actions are executed automatically.',
+      'Automations run based on triggers (like new contact created or payment received). When a trigger fires, the associated actions (like sending an email or adding a tag) are executed automatically. See our complete guide in the Resources section.',
   },
   {
     question: 'What payment methods are supported?',
@@ -36,6 +36,12 @@ const faqItems = [
 ]
 
 const resources = [
+  {
+    title: 'Automations & Funnels Guide',
+    description: 'Complete guide to automations and funnels',
+    icon: Book,
+    href: '/docs/automations-funnels',
+  },
   {
     title: 'Getting Started Guide',
     description: 'Learn the basics of UnifiedBizOS',
