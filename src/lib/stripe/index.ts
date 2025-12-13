@@ -28,16 +28,7 @@ export const stripe = {
 
 // Check if Stripe is configured (only secret key is required for server operations)
 export const isStripeConfigured = () => {
-  const secretKey = process.env.STRIPE_SECRET_KEY?.trim()
-  
-  // Debug logging for troubleshooting
-  if (typeof window === 'undefined') {
-    console.log('[Stripe Config] STRIPE_SECRET_KEY exists:', !!secretKey)
-    console.log('[Stripe Config] STRIPE_PUBLISHABLE_KEY exists:', !!process.env.STRIPE_PUBLISHABLE_KEY?.trim())
-  }
-  
-  // Only require secret key for server-side operations
-  return !!secretKey
+  return !!process.env.STRIPE_SECRET_KEY?.trim()
 }
 
 // Get publishable key for client

@@ -77,3 +77,4 @@ export function AcceptInvitationButton({ token, organizationName }: AcceptInvita
 }
 
 
+
