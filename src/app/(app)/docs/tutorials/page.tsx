@@ -8,62 +8,80 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { TutorialCard } from './tutorial-card'
 
+/**
+ * Tutorial data structure
+ * 
+ * To add a video URL later, simply update the `url` field:
+ * - YouTube: 'https://www.youtube.com/watch?v=VIDEO_ID'
+ * - Vimeo: 'https://vimeo.com/VIDEO_ID'
+ * - External link: 'https://your-tutorial-page.com'
+ * 
+ * Leave as `undefined` to show "Coming Soon" dialog
+ */
 const tutorials = [
   {
     title: 'Getting Started with UnifiedBizOS',
     description: 'A complete overview of the platform and its main features.',
     duration: '5 min',
     category: 'Basics',
-    thumbnail: '🎬'
+    thumbnail: '🎬',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Setting Up Your CRM',
     description: 'Learn how to add contacts, create deals, and manage your sales pipeline.',
     duration: '8 min',
     category: 'CRM',
-    thumbnail: '👥'
+    thumbnail: '👥',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Creating Your First Booking Service',
     description: 'Set up online booking and share your scheduling link with clients.',
     duration: '6 min',
     category: 'Bookings',
-    thumbnail: '📅'
+    thumbnail: '📅',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Managing Your Sales Pipeline',
     description: 'Drag-and-drop deals through stages and track your revenue.',
     duration: '7 min',
     category: 'CRM',
-    thumbnail: '📊'
+    thumbnail: '📊',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Inviting Team Members',
     description: 'Add your team and assign roles for collaboration.',
     duration: '4 min',
     category: 'Team',
-    thumbnail: '👋'
+    thumbnail: '👋',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Connecting Payment Integrations',
     description: 'Set up Stripe to accept payments and create invoices.',
     duration: '6 min',
     category: 'Payments',
-    thumbnail: '💳'
+    thumbnail: '💳',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Creating Automations',
     description: 'Automate repetitive tasks with triggers and actions.',
     duration: '10 min',
     category: 'Advanced',
-    thumbnail: '⚡'
+    thumbnail: '⚡',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
   {
     title: 'Building Sales Funnels',
     description: 'Create landing pages and conversion funnels for your business.',
     duration: '12 min',
     category: 'Advanced',
-    thumbnail: '🎯'
+    thumbnail: '🎯',
+    url: undefined, // Add YouTube/Vimeo URL here when ready
   },
 ]
 
@@ -117,6 +135,7 @@ export default function TutorialsPage() {
               duration={tutorial.duration}
               category={tutorial.category}
               thumbnail={tutorial.thumbnail}
+              url={tutorial.url}
             />
           ))}
         </div>
