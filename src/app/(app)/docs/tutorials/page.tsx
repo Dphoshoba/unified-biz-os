@@ -1,8 +1,12 @@
-import Link from 'next/link'
-import { ArrowLeft, Play, Clock, BookOpen } from 'lucide-react'
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from 'react'
+import Link from 'next/link'
+import { ArrowLeft, BookOpen } from 'lucide-react'
+
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { TutorialCard } from './tutorial-card'
 
 const tutorials = [
   {
@@ -66,6 +70,12 @@ const tutorials = [
 const categories = ['All', 'Basics', 'CRM', 'Bookings', 'Payments', 'Team', 'Advanced']
 
 export default function TutorialsPage() {
+  const [selectedCategory, setSelectedCategory] = useState('All')
+
+  const filteredTutorials = selectedCategory === 'All' 
+    ? tutorials 
+    : tutorials.filter(t => t.category === selectedCategory)
+
   return (
     <div className="p-6 lg:p-8 max-w-5xl mx-auto">
       {/* Back Link */}
@@ -87,8 +97,9 @@ export default function TutorialsPage() {
         {categories.map((category) => (
           <Badge
             key={category}
-            variant={category === 'All' ? 'default' : 'outline'}
+            variant={selectedCategory === category ? 'default' : 'outline'}
             className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+            onClick={() => setSelectedCategory(category)}
           >
             {category}
           </Badge>
@@ -96,39 +107,30 @@ export default function TutorialsPage() {
       </div>
 
       {/* Video Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {tutorials.map((tutorial, index) => (
-          <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
-            {/* Thumbnail */}
-            <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center relative">
-              <span className="text-5xl">{tutorial.thumbnail}</span>
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="h-14 w-14 rounded-full bg-white/90 flex items-center justify-center">
-                  <Play className="h-6 w-6 text-primary ml-1" />
-                </div>
-              </div>
-            </div>
-            
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between mb-1">
-                <Badge variant="secondary" className="text-xs">
-                  {tutorial.category}
-                </Badge>
-                <span className="flex items-center text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3 mr-1" />
-                  {tutorial.duration}
-                </span>
-              </div>
-              <CardTitle className="text-base line-clamp-2">{tutorial.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-sm line-clamp-2">
-                {tutorial.description}
-              </CardDescription>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {filteredTutorials.length > 0 ? (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredTutorials.map((tutorial, index) => (
+            <TutorialCard
+              key={index}
+              title={tutorial.title}
+              description={tutorial.description}
+              duration={tutorial.duration}
+              category={tutorial.category}
+              thumbnail={tutorial.thumbnail}
+            />
+          ))}
+        </div>
+      ) : (
+        <Card className="border-dashed">
+          <CardContent className="py-12 text-center">
+            <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+            <h3 className="font-semibold mb-2">No tutorials in this category</h3>
+            <p className="text-sm text-muted-foreground">
+              Try selecting a different category or "All" to see all tutorials.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Coming Soon Notice */}
       <Card className="mt-8 border-dashed">
