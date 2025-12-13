@@ -146,6 +146,25 @@ export async function createContact(input: CreateContactInput) {
     },
   })
 
+  // Trigger CONTACT_CREATED automations
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    await triggerAutomations(
+      session.activeOrganizationId,
+      AutomationTrigger.CONTACT_CREATED,
+      {
+        contactId: contact.id,
+        email: contact.email,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+      }
+    )
+  } catch (error) {
+    // Don't fail contact creation if automation fails
+    console.error('Failed to trigger automations:', error)
+  }
+
   revalidatePath('/crm/contacts')
   return { ...contact, tags: contact.tags.map((t) => t.tag) }
 }

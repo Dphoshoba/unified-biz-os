@@ -220,6 +220,25 @@ export async function createDeal(input: CreateDealInput) {
     },
   })
 
+  // Trigger DEAL_CREATED automations
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    await triggerAutomations(
+      session.activeOrganizationId,
+      AutomationTrigger.DEAL_CREATED,
+      {
+        dealId: deal.id,
+        dealName: deal.name,
+        value: deal.value.toNumber(),
+        contactId: deal.contactId,
+        companyId: deal.companyId,
+      }
+    )
+  } catch (error) {
+    console.error('Failed to trigger automations:', error)
+  }
+
   revalidatePath('/crm/deals')
   revalidatePath('/crm/pipeline')
   return { ...deal, value: deal.value.toNumber(), tags: deal.tags.map((t) => t.tag) }
@@ -231,6 +250,9 @@ export async function updateDeal(id: string, input: UpdateDealInput) {
 
   const existing = await db.deal.findFirst({
     where: { id, organizationId: session.activeOrganizationId },
+    include: {
+      stage: true,
+    },
   })
 
   if (!existing) {
@@ -258,6 +280,58 @@ export async function updateDeal(id: string, input: UpdateDealInput) {
     },
   })
 
+  // Trigger automations based on status changes
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    
+    // Check if status changed
+    if (data.status && data.status !== existing.status) {
+      if (data.status === 'WON') {
+        await triggerAutomations(
+          session.activeOrganizationId,
+          AutomationTrigger.DEAL_WON,
+          {
+            dealId: deal.id,
+            dealName: deal.name,
+            value: deal.value.toNumber(),
+            contactId: deal.contactId,
+            companyId: deal.companyId,
+          }
+        )
+      } else if (data.status === 'LOST') {
+        await triggerAutomations(
+          session.activeOrganizationId,
+          AutomationTrigger.DEAL_LOST,
+          {
+            dealId: deal.id,
+            dealName: deal.name,
+            value: deal.value.toNumber(),
+            contactId: deal.contactId,
+            companyId: deal.companyId,
+          }
+        )
+      }
+    }
+    
+    // Check if stage changed
+    if (data.stageId && data.stageId !== existing.stageId) {
+      await triggerAutomations(
+        session.activeOrganizationId,
+        AutomationTrigger.DEAL_STAGE_CHANGED,
+        {
+          dealId: deal.id,
+          dealName: deal.name,
+          oldStageId: existing.stageId,
+          newStageId: data.stageId,
+          contactId: deal.contactId,
+        }
+      )
+    }
+  } catch (error) {
+    console.error('Failed to trigger automations:', error)
+  }
+
   revalidatePath('/crm/deals')
   revalidatePath('/crm/pipeline')
   revalidatePath(`/crm/deals/${id}`)
@@ -269,6 +343,9 @@ export async function moveDealToStage(dealId: string, stageId: string) {
 
   const existing = await db.deal.findFirst({
     where: { id: dealId, organizationId: session.activeOrganizationId },
+    include: {
+      contact: { select: { id: true } },
+    },
   })
 
   if (!existing) {
@@ -279,6 +356,25 @@ export async function moveDealToStage(dealId: string, stageId: string) {
     where: { id: dealId },
     data: { stageId },
   })
+
+  // Trigger DEAL_STAGE_CHANGED automations
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    await triggerAutomations(
+      session.activeOrganizationId,
+      AutomationTrigger.DEAL_STAGE_CHANGED,
+      {
+        dealId: deal.id,
+        dealName: existing.name,
+        oldStageId: existing.stageId,
+        newStageId: stageId,
+        contactId: existing.contactId,
+      }
+    )
+  } catch (error) {
+    console.error('Failed to trigger automations:', error)
+  }
 
   revalidatePath('/crm/pipeline')
   return deal

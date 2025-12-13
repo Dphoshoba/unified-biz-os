@@ -40,13 +40,37 @@ export async function POST(req: Request) {
         const invoiceId = invoice.metadata?.invoiceId
 
         if (invoiceId) {
-          await db.invoice.update({
+          const updatedInvoice = await db.invoice.update({
             where: { id: invoiceId },
             data: {
               status: 'PAID',
               paidAt: new Date(),
             },
+            include: {
+              organization: { select: { id: true } },
+              contact: { select: { id: true, email: true } },
+            },
           })
+
+          // Trigger PAYMENT_RECEIVED automations
+          try {
+            const { triggerAutomations } = await import('@/lib/automations/executor')
+            const { AutomationTrigger } = await import('@prisma/client')
+            await triggerAutomations(
+              updatedInvoice.organizationId,
+              AutomationTrigger.PAYMENT_RECEIVED,
+              {
+                invoiceId: updatedInvoice.id,
+                amount: Number(updatedInvoice.total),
+                currency: updatedInvoice.currency,
+                contactId: updatedInvoice.contactId,
+                contactEmail: updatedInvoice.contact?.email,
+              }
+            )
+          } catch (error) {
+            console.error('Failed to trigger automations:', error)
+          }
+
           console.log(`Invoice ${invoiceId} marked as paid`)
         }
         break

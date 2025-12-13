@@ -364,8 +364,29 @@ export async function createPublicBooking(
     include: {
       service: { select: { name: true, durationMinutes: true } },
       provider: { select: { name: true, email: true } },
+      contact: { select: { id: true, email: true } },
     },
   })
+
+  // Trigger BOOKING_CREATED automations
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    await triggerAutomations(
+      org.id,
+      AutomationTrigger.BOOKING_CREATED,
+      {
+        bookingId: booking.id,
+        serviceName: booking.service.name,
+        guestName: booking.guestName,
+        guestEmail: booking.guestEmail,
+        startTime: booking.startTime.toISOString(),
+        contactId: booking.contactId,
+      }
+    )
+  } catch (error) {
+    console.error('Failed to trigger automations:', error)
+  }
 
   return booking
 }
@@ -410,7 +431,29 @@ export async function updateBooking(id: string, input: UpdateBookingInput) {
 }
 
 export async function confirmBooking(id: string) {
-  return updateBooking(id, { status: 'CONFIRMED' })
+  const session = await requireAuthWithOrg()
+  const booking = await updateBooking(id, { status: 'CONFIRMED' })
+  
+  // Trigger BOOKING_CONFIRMED automations
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    await triggerAutomations(
+      session.activeOrganizationId,
+      AutomationTrigger.BOOKING_CONFIRMED,
+      {
+        bookingId: booking.id,
+        guestName: booking.guestName,
+        guestEmail: booking.guestEmail,
+        startTime: booking.startTime.toISOString(),
+        contactId: booking.contactId,
+      }
+    )
+  } catch (error) {
+    console.error('Failed to trigger automations:', error)
+  }
+  
+  return booking
 }
 
 export async function cancelBooking(id: string, reason?: string) {
@@ -432,7 +475,29 @@ export async function cancelBooking(id: string, reason?: string) {
       cancelReason: reason,
       cancelledBy: 'provider',
     },
+    include: {
+      contact: { select: { id: true, email: true } },
+    },
   })
+
+  // Trigger BOOKING_CANCELLED automations
+  try {
+    const { triggerAutomations } = await import('@/lib/automations/executor')
+    const { AutomationTrigger } = await import('@prisma/client')
+    await triggerAutomations(
+      session.activeOrganizationId,
+      AutomationTrigger.BOOKING_CANCELLED,
+      {
+        bookingId: booking.id,
+        guestName: booking.guestName,
+        guestEmail: booking.guestEmail,
+        cancelReason: reason,
+        contactId: booking.contactId,
+      }
+    )
+  } catch (error) {
+    console.error('Failed to trigger automations:', error)
+  }
 
   revalidatePath('/bookings')
   revalidatePath('/bookings/appointments')
