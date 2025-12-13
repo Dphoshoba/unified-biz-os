@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 import { ComingSoonButton } from '@/components/ui/coming-soon-button'
+import { ImportContactsDialog } from './import-contacts-dialog'
+import { ExportContactsButton } from './export-contacts-button'
 import { getContacts, getContactsCount } from '@/lib/crm'
 import { AddContactDialog } from './add-contact-dialog'
 
@@ -28,10 +30,7 @@ export default async function ContactsPage() {
     <div className="p-6 lg:p-8">
       <PageHeader title="Contacts" description={`${totalCount} total contacts`}>
         <div className="flex gap-2">
-          <ComingSoonButton featureName="Import Contacts" variant="outline" className="rounded-xl">
-            <Upload className="h-4 w-4 mr-2" />
-            Import
-          </ComingSoonButton>
+          <ImportContactsDialog />
           <AddContactDialog />
         </div>
       </PageHeader>
@@ -52,9 +51,7 @@ export default async function ContactsPage() {
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
               </ComingSoonButton>
-              <ComingSoonButton featureName="Export Contacts" variant="outline" size="sm">
-                Export
-              </ComingSoonButton>
+              <ExportContactsButton />
             </div>
           </div>
         </CardContent>
