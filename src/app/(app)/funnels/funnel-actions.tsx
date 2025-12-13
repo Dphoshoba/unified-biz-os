@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Play, Pause, MoreHorizontal, Trash2, ExternalLink, Copy } from 'lucide-react'
+import { Play, Pause, MoreHorizontal, Trash2, ExternalLink, Copy, Edit } from 'lucide-react'
 import { FunnelStatus } from '@prisma/client'
 
 import { Button } from '@/components/ui/button'
@@ -56,11 +56,24 @@ export function FunnelActions({ id, slug, status }: FunnelActionsProps) {
     window.open(`/f/${slug}`, '_blank')
   }
 
+  const handleEditFunnel = () => {
+    window.location.href = `/funnels/${id}/edit`
+  }
+
   const isActive = status === 'ACTIVE'
 
   return (
     <>
       <div className="flex items-center gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="rounded-xl"
+          onClick={handleEditFunnel}
+        >
+          <Edit className="h-4 w-4 mr-2" />
+          Edit
+        </Button>
         <Button 
           variant="outline" 
           size="sm" 

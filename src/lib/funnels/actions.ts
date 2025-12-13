@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/auth-helpers'
 import { FunnelType, FunnelStatus } from '@prisma/client'
+import { JsonObject } from '@prisma/client/runtime/library'
 import { FUNNEL_TEMPLATES } from './utils'
 
 export type CreateFunnelInput = {
@@ -21,6 +22,16 @@ export type UpdateFunnelInput = {
   primaryColor?: string
   logoUrl?: string
   customDomain?: string
+}
+
+export type UpdateFunnelStepInput = {
+  id: string
+  headline?: string
+  subheadline?: string
+  ctaText?: string
+  ctaUrl?: string
+  content?: JsonObject
+  formFields?: JsonObject
 }
 
 function generateSlug(name: string): string {
@@ -158,7 +169,7 @@ export async function updateFunnel(input: UpdateFunnelInput) {
         ...(input.description !== undefined && { description: input.description }),
         ...(input.status && { status: input.status }),
         ...(input.primaryColor && { primaryColor: input.primaryColor }),
-        ...(input.logoUrl !== undefined && { logoUrl: input.logoUrl }),
+        ...(input.logoUrl !== undefined && { logoUrl: input.logoUrl || null }),
         ...(input.customDomain !== undefined && { customDomain: input.customDomain }),
       },
     })
@@ -168,6 +179,71 @@ export async function updateFunnel(input: UpdateFunnelInput) {
   } catch (error) {
     console.error('Failed to update funnel:', error)
     return { success: false, error: 'Failed to update funnel' }
+  }
+}
+
+export async function getFunnel(id: string) {
+  const session = await getSession()
+  if (!session?.activeOrganizationId) {
+    return null
+  }
+
+  const funnel = await db.funnel.findFirst({
+    where: {
+      id,
+      organizationId: session.activeOrganizationId,
+    },
+    include: {
+      steps: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
+    },
+  })
+
+  return funnel
+}
+
+export async function updateFunnelStep(input: UpdateFunnelStepInput) {
+  const session = await getSession()
+  if (!session?.activeOrganizationId) {
+    return { success: false, error: 'Not authenticated' }
+  }
+
+  try {
+    // Verify step belongs to user's organization
+    const step = await db.funnelStep.findFirst({
+      where: {
+        id: input.id,
+        funnel: {
+          organizationId: session.activeOrganizationId,
+        },
+      },
+    })
+
+    if (!step) {
+      return { success: false, error: 'Step not found' }
+    }
+
+    const updatedStep = await db.funnelStep.update({
+      where: { id: input.id },
+      data: {
+        ...(input.headline !== undefined && { headline: input.headline }),
+        ...(input.subheadline !== undefined && { subheadline: input.subheadline }),
+        ...(input.ctaText !== undefined && { ctaText: input.ctaText }),
+        ...(input.ctaUrl !== undefined && { ctaUrl: input.ctaUrl }),
+        ...(input.content !== undefined && { content: input.content }),
+        ...(input.formFields !== undefined && { formFields: input.formFields }),
+      },
+    })
+
+    revalidatePath('/funnels')
+    revalidatePath(`/funnels/${step.funnelId}/edit`)
+    return { success: true, step: updatedStep }
+  } catch (error) {
+    console.error('Failed to update funnel step:', error)
+    return { success: false, error: 'Failed to update funnel step' }
   }
 }
 
