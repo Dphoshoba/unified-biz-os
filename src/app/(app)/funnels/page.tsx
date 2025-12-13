@@ -1,11 +1,31 @@
-import { Plus, Target, Users, Sparkles, ShoppingCart, ExternalLink, MoreHorizontal, TrendingUp, Eye } from 'lucide-react'
+import { Target, Users, Sparkles, ShoppingCart, ExternalLink, MoreHorizontal, TrendingUp, Eye, Video, Clock } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { KpiCard } from '@/components/dashboard'
-import { ComingSoonButton } from '@/components/ui/coming-soon-button'
+import { CreateFunnelDialog } from './create-funnel-dialog'
+import { FunnelActions } from './funnel-actions'
+import { getFunnels, getFunnelStats, formatFunnelType, FUNNEL_TEMPLATES } from '@/lib/funnels/actions'
+
+const templateIcons = {
+  LEAD_MAGNET: Users,
+  CONSULTATION: Target,
+  FREE_TRIAL: Sparkles,
+  DIRECT_PURCHASE: ShoppingCart,
+  WEBINAR: Video,
+  WAITLIST: Clock,
+}
+
+const templateColors = {
+  LEAD_MAGNET: 'text-blue-600 bg-blue-500/10',
+  CONSULTATION: 'text-emerald-600 bg-emerald-500/10',
+  FREE_TRIAL: 'text-violet-600 bg-violet-500/10',
+  DIRECT_PURCHASE: 'text-amber-600 bg-amber-500/10',
+  WEBINAR: 'text-rose-600 bg-rose-500/10',
+  WAITLIST: 'text-cyan-600 bg-cyan-500/10',
+}
 
 const templates = [
   {
@@ -13,6 +33,7 @@ const templates = [
     name: 'Lead Magnet',
     description: 'Capture leads with a free resource download',
     icon: Users,
+    type: 'LEAD_MAGNET',
     steps: ['Landing Page', 'Opt-in Form', 'Thank You Page'],
   },
   {
@@ -20,6 +41,7 @@ const templates = [
     name: 'Consultation Booking',
     description: 'Book discovery calls or consultations',
     icon: Target,
+    type: 'CONSULTATION',
     steps: ['Landing Page', 'Calendar Booking', 'Confirmation'],
   },
   {
@@ -27,6 +49,7 @@ const templates = [
     name: 'Free Trial',
     description: 'Offer a free trial to convert prospects',
     icon: Sparkles,
+    type: 'FREE_TRIAL',
     steps: ['Landing Page', 'Sign Up Form', 'Onboarding'],
   },
   {
@@ -34,47 +57,26 @@ const templates = [
     name: 'Direct Purchase',
     description: 'Sell products or services directly',
     icon: ShoppingCart,
+    type: 'DIRECT_PURCHASE',
     steps: ['Sales Page', 'Checkout', 'Thank You'],
   },
 ]
 
-const funnels = [
-  {
-    id: '1',
-    name: 'Free Strategy Guide',
-    type: 'Lead Magnet',
-    status: 'active',
-    visitors: 1247,
-    conversions: 312,
-    conversionRate: '25%',
-    revenue: '$0',
-  },
-  {
-    id: '2',
-    name: 'Book a Discovery Call',
-    type: 'Consultation Booking',
-    status: 'active',
-    visitors: 856,
-    conversions: 89,
-    conversionRate: '10.4%',
-    revenue: '$13,350',
-  },
-  {
-    id: '3',
-    name: 'Pro Plan Launch',
-    type: 'Direct Purchase',
-    status: 'draft',
-    visitors: 0,
-    conversions: 0,
-    conversionRate: '0%',
-    revenue: '$0',
-  },
-]
+function formatRevenue(cents: number): string {
+  if (cents === 0) return '$0'
+  return `$${(cents / 100).toLocaleString()}`
+}
 
-export default function FunnelsPage() {
-  const totalVisitors = funnels.reduce((sum, f) => sum + f.visitors, 0)
-  const totalConversions = funnels.reduce((sum, f) => sum + f.conversions, 0)
-  const avgConversionRate = totalVisitors > 0 ? ((totalConversions / totalVisitors) * 100).toFixed(1) : '0'
+function getConversionRate(visitors: number, conversions: number): string {
+  if (visitors === 0) return '0%'
+  return `${((conversions / visitors) * 100).toFixed(1)}%`
+}
+
+export default async function FunnelsPage() {
+  const [funnels, stats] = await Promise.all([
+    getFunnels(),
+    getFunnelStats(),
+  ])
 
   return (
     <div className="p-6 lg:p-8 space-y-8">
@@ -82,34 +84,31 @@ export default function FunnelsPage() {
         title="Funnels"
         description="Create high-converting landing pages and funnels."
       >
-        <ComingSoonButton featureName="Create Funnel" className="rounded-xl">
-          <Plus className="h-4 w-4 mr-2" />
-          Create Funnel
-        </ComingSoonButton>
+        <CreateFunnelDialog />
       </PageHeader>
 
       {/* KPI Stats */}
       <div className="grid gap-4 sm:grid-cols-3">
         <KpiCard
           title="Total Visitors"
-          value={totalVisitors.toLocaleString()}
+          value={stats.visitors.toLocaleString()}
           icon={Eye}
           iconColor="text-blue-600"
-          change={{ value: 34.2, label: 'vs last month' }}
+          change={{ value: stats.visitors > 0 ? 100 : 0, label: 'all time' }}
         />
         <KpiCard
           title="Total Conversions"
-          value={totalConversions}
+          value={stats.conversions}
           icon={Users}
           iconColor="text-emerald-600"
-          change={{ value: 28.5, label: 'vs last month' }}
+          change={{ value: stats.conversions > 0 ? 100 : 0, label: 'all time' }}
         />
         <KpiCard
           title="Avg. Conversion Rate"
-          value={`${avgConversionRate}%`}
+          value={`${stats.avgRate}%`}
           icon={TrendingUp}
           iconColor="text-violet-600"
-          change={{ value: 5.2, label: 'vs last month' }}
+          change={{ value: stats.avgRate > 0 ? stats.avgRate : 0, label: 'overall' }}
         />
       </div>
 
@@ -151,70 +150,86 @@ export default function FunnelsPage() {
       {/* Your Funnels */}
       <div>
         <h2 className="text-heading font-semibold mb-4">Your Funnels</h2>
-        <div className="space-y-4">
-          {funnels.map((funnel) => (
-            <Card key={funnel.id} className="rounded-2xl shadow-card border-border/50">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between flex-wrap gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      <Target className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold">{funnel.name}</h3>
-                        <Badge
-                          variant={funnel.status === 'active' ? 'success' : 'secondary'}
-                        >
-                          {funnel.status}
-                        </Badge>
+        {funnels.length === 0 ? (
+          <Card className="rounded-2xl shadow-card border-border/50">
+            <CardContent className="p-12 text-center">
+              <Target className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
+              <h3 className="text-lg font-semibold mb-2">No funnels yet</h3>
+              <p className="text-muted-foreground mb-4">
+                Create your first funnel to start capturing leads and converting visitors.
+              </p>
+              <CreateFunnelDialog />
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-4">
+            {funnels.map((funnel) => {
+              const Icon = templateIcons[funnel.type] || Target
+              const colorClass = templateColors[funnel.type] || 'text-primary bg-primary/10'
+              
+              return (
+                <Card key={funnel.id} className="rounded-2xl shadow-card border-border/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between flex-wrap gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${colorClass}`}>
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold">{funnel.name}</h3>
+                            <Badge
+                              variant={funnel.status === 'ACTIVE' ? 'success' : 'secondary'}
+                            >
+                              {funnel.status.toLowerCase()}
+                            </Badge>
+                          </div>
+                          <p className="text-body-sm text-muted-foreground">
+                            {formatFunnelType(funnel.type)}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-body-sm text-muted-foreground">
-                        {funnel.type}
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="flex items-center gap-6 lg:gap-8">
-                    <div className="text-center">
-                      <div className="text-heading-sm font-semibold tabular-nums">
-                        {funnel.visitors.toLocaleString()}
+                      <div className="flex items-center gap-6 lg:gap-8">
+                        <div className="text-center">
+                          <div className="text-heading-sm font-semibold tabular-nums">
+                            {funnel.visitors.toLocaleString()}
+                          </div>
+                          <div className="text-caption text-muted-foreground">Visitors</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-heading-sm font-semibold tabular-nums">
+                            {funnel.conversions}
+                          </div>
+                          <div className="text-caption text-muted-foreground">
+                            Conversions
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-heading-sm font-semibold text-success tabular-nums">
+                            {getConversionRate(funnel.visitors, funnel.conversions)}
+                          </div>
+                          <div className="text-caption text-muted-foreground">Rate</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-heading-sm font-semibold tabular-nums">
+                            {formatRevenue(funnel.revenue)}
+                          </div>
+                          <div className="text-caption text-muted-foreground">Revenue</div>
+                        </div>
+                        <FunnelActions 
+                          id={funnel.id} 
+                          slug={funnel.slug}
+                          status={funnel.status} 
+                        />
                       </div>
-                      <div className="text-caption text-muted-foreground">Visitors</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-heading-sm font-semibold tabular-nums">
-                        {funnel.conversions}
-                      </div>
-                      <div className="text-caption text-muted-foreground">
-                        Conversions
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-heading-sm font-semibold text-success tabular-nums">
-                        {funnel.conversionRate}
-                      </div>
-                      <div className="text-caption text-muted-foreground">Rate</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-heading-sm font-semibold tabular-nums">{funnel.revenue}</div>
-                      <div className="text-caption text-muted-foreground">Revenue</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" className="rounded-xl">
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        View
-                      </Button>
-                      <Button variant="ghost" size="icon" className="rounded-xl">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

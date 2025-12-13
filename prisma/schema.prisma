@@ -138,6 +138,12 @@ model Organization {
   products Product[]
   invoices Invoice[]
 
+  // Automation relations
+  automations Automation[]
+
+  // Funnel relations
+  funnels Funnel[]
+
   @@map("organizations")
 }
 
@@ -692,4 +698,160 @@ enum NotificationType {
   BOOKING_CANCELLED
   PAYMENT_RECEIVED
   MENTION
+}
+
+// =============================================================================
+// AUTOMATIONS
+// =============================================================================
+
+/// Automation represents a workflow that runs automatically based on triggers
+model Automation {
+  id             String           @id @default(cuid())
+  organizationId String
+  name           String
+  description    String?
+  triggerType    AutomationTrigger
+  triggerConfig  Json?            // Additional trigger configuration
+  actionType     AutomationAction
+  actionConfig   Json?            // Additional action configuration (email template, tag names, etc.)
+  status         AutomationStatus @default(ACTIVE)
+  executions     Int              @default(0)
+  lastRunAt      DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("automations")
+}
+
+enum AutomationTrigger {
+  CONTACT_CREATED        // New contact added
+  CONTACT_TAG_ADDED      // Tag added to contact
+  DEAL_CREATED           // New deal created
+  DEAL_STAGE_CHANGED     // Deal moves to different stage
+  DEAL_WON               // Deal marked as won
+  DEAL_LOST              // Deal marked as lost
+  BOOKING_CREATED        // New booking made
+  BOOKING_CONFIRMED      // Booking confirmed
+  BOOKING_CANCELLED      // Booking cancelled
+  PAYMENT_RECEIVED       // Payment completed
+  FORM_SUBMITTED         // Form submission received
+}
+
+enum AutomationAction {
+  SEND_EMAIL             // Send an email
+  ADD_TAG                // Add tag to contact
+  REMOVE_TAG             // Remove tag from contact
+  UPDATE_CONTACT_STATUS  // Update contact status
+  CREATE_TASK            // Create a follow-up task
+  SEND_NOTIFICATION      // Send in-app notification
+  WEBHOOK                // Call external webhook
+  DELAY                  // Wait for specified time
+}
+
+enum AutomationStatus {
+  ACTIVE
+  PAUSED
+  DRAFT
+}
+
+// =============================================================================
+// FUNNELS & LANDING PAGES
+// =============================================================================
+
+/// Funnel represents a marketing/sales funnel with multiple steps
+model Funnel {
+  id             String       @id @default(cuid())
+  organizationId String
+  name           String
+  slug           String       // URL-friendly identifier
+  description    String?
+  type           FunnelType
+  status         FunnelStatus @default(DRAFT)
+  
+  // Analytics
+  visitors       Int          @default(0)
+  conversions    Int          @default(0)
+  revenue        Int          @default(0) // In cents
+  
+  // Settings
+  primaryColor   String       @default("#3B82F6")
+  logoUrl        String?
+  faviconUrl     String?
+  customDomain   String?
+  
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  steps        FunnelStep[]
+
+  @@unique([organizationId, slug])
+  @@index([organizationId])
+  @@index([status])
+  @@map("funnels")
+}
+
+/// FunnelStep represents a page/step within a funnel
+model FunnelStep {
+  id          String         @id @default(cuid())
+  funnelId    String
+  name        String
+  type        FunnelStepType
+  order       Int
+  
+  // Page content
+  headline    String?
+  subheadline String?
+  content     Json?          // Rich content blocks
+  
+  // Form fields (for opt-in steps)
+  formFields  Json?
+  
+  // CTA settings
+  ctaText     String?
+  ctaUrl      String?
+  
+  // Analytics for this step
+  views       Int            @default(0)
+  completions Int            @default(0)
+  
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  funnel Funnel @relation(fields: [funnelId], references: [id], onDelete: Cascade)
+
+  @@index([funnelId])
+  @@index([order])
+  @@map("funnel_steps")
+}
+
+enum FunnelType {
+  LEAD_MAGNET         // Free resource download
+  CONSULTATION        // Book a call
+  FREE_TRIAL          // Sign up for trial
+  DIRECT_PURCHASE     // Buy now
+  WEBINAR             // Register for webinar
+  WAITLIST            // Join waitlist
+}
+
+enum FunnelStepType {
+  LANDING_PAGE        // Main landing page
+  OPT_IN_FORM         // Email capture form
+  SALES_PAGE          // Long-form sales page
+  CHECKOUT            // Payment page
+  UPSELL              // One-click upsell
+  DOWNSELL            // Alternative offer
+  THANK_YOU           // Confirmation page
+  CALENDAR            // Booking calendar
+}
+
+enum FunnelStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
 }
