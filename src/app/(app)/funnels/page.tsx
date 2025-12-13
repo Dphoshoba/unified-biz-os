@@ -7,7 +7,8 @@ import { Badge } from '@/components/ui/badge'
 import { KpiCard } from '@/components/dashboard'
 import { CreateFunnelDialog } from './create-funnel-dialog'
 import { FunnelActions } from './funnel-actions'
-import { getFunnels, getFunnelStats, formatFunnelType, FUNNEL_TEMPLATES } from '@/lib/funnels/actions'
+import { getFunnels, getFunnelStats } from '@/lib/funnels/actions'
+import { formatFunnelType, FUNNEL_TEMPLATES } from '@/lib/funnels/utils'
 
 const templateIcons = {
   LEAD_MAGNET: Users,

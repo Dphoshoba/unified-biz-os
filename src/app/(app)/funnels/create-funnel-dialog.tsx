@@ -17,7 +17,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
-import { createFunnel, FUNNEL_TEMPLATES } from '@/lib/funnels/actions'
+import { createFunnel } from '@/lib/funnels/actions'
+import { FUNNEL_TEMPLATES } from '@/lib/funnels/utils'
 
 const TEMPLATE_OPTIONS = [
   { 

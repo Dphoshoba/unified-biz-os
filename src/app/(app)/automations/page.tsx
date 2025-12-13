@@ -7,7 +7,8 @@ import { Badge } from '@/components/ui/badge'
 import { KpiCard } from '@/components/dashboard'
 import { CreateAutomationDialog } from './create-automation-dialog'
 import { AutomationActions } from './automation-actions'
-import { getAutomations, getAutomationStats, formatTriggerType, formatActionType } from '@/lib/automations/actions'
+import { getAutomations, getAutomationStats } from '@/lib/automations/actions'
+import { formatTriggerType, formatActionType } from '@/lib/automations/utils'
 
 const templates = [
   {

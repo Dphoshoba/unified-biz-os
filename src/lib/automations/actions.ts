@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
-import { getServerSession } from '@/lib/auth/session'
-import { AutomationTrigger, AutomationAction, AutomationStatus } from '@prisma/client'
+import { getSession } from '@/lib/auth-helpers'
+import { AutomationTrigger, AutomationAction, AutomationStatus, Prisma } from '@prisma/client'
 
 export type CreateAutomationInput = {
   name: string
@@ -26,7 +26,7 @@ export type UpdateAutomationInput = {
 }
 
 export async function getAutomations() {
-  const session = await getServerSession()
+  const session = await getSession()
   if (!session?.activeOrganizationId) {
     return []
   }
@@ -44,7 +44,7 @@ export async function getAutomations() {
 }
 
 export async function getAutomationStats() {
-  const session = await getServerSession()
+  const session = await getSession()
   if (!session?.activeOrganizationId) {
     return { active: 0, total: 0, executions: 0 }
   }
@@ -67,7 +67,7 @@ export async function getAutomationStats() {
 }
 
 export async function createAutomation(input: CreateAutomationInput) {
-  const session = await getServerSession()
+  const session = await getSession()
   if (!session?.activeOrganizationId) {
     return { success: false, error: 'Not authenticated' }
   }
@@ -79,9 +79,9 @@ export async function createAutomation(input: CreateAutomationInput) {
         name: input.name,
         description: input.description,
         triggerType: input.triggerType,
-        triggerConfig: input.triggerConfig,
+        triggerConfig: input.triggerConfig as Prisma.InputJsonValue | undefined,
         actionType: input.actionType,
-        actionConfig: input.actionConfig,
+        actionConfig: input.actionConfig as Prisma.InputJsonValue | undefined,
         status: 'ACTIVE',
       },
     })
@@ -95,7 +95,7 @@ export async function createAutomation(input: CreateAutomationInput) {
 }
 
 export async function updateAutomation(input: UpdateAutomationInput) {
-  const session = await getServerSession()
+  const session = await getSession()
   if (!session?.activeOrganizationId) {
     return { success: false, error: 'Not authenticated' }
   }
@@ -110,9 +110,9 @@ export async function updateAutomation(input: UpdateAutomationInput) {
         ...(input.name && { name: input.name }),
         ...(input.description !== undefined && { description: input.description }),
         ...(input.triggerType && { triggerType: input.triggerType }),
-        ...(input.triggerConfig && { triggerConfig: input.triggerConfig }),
+        ...(input.triggerConfig && { triggerConfig: input.triggerConfig as Prisma.InputJsonValue }),
         ...(input.actionType && { actionType: input.actionType }),
-        ...(input.actionConfig && { actionConfig: input.actionConfig }),
+        ...(input.actionConfig && { actionConfig: input.actionConfig as Prisma.InputJsonValue }),
         ...(input.status && { status: input.status }),
       },
     })
@@ -126,7 +126,7 @@ export async function updateAutomation(input: UpdateAutomationInput) {
 }
 
 export async function toggleAutomationStatus(id: string) {
-  const session = await getServerSession()
+  const session = await getSession()
   if (!session?.activeOrganizationId) {
     return { success: false, error: 'Not authenticated' }
   }
@@ -156,7 +156,7 @@ export async function toggleAutomationStatus(id: string) {
 }
 
 export async function deleteAutomation(id: string) {
-  const session = await getServerSession()
+  const session = await getSession()
   if (!session?.activeOrganizationId) {
     return { success: false, error: 'Not authenticated' }
   }
@@ -176,37 +176,3 @@ export async function deleteAutomation(id: string) {
     return { success: false, error: 'Failed to delete automation' }
   }
 }
-
-// Helper to format trigger type for display
-export function formatTriggerType(trigger: AutomationTrigger): string {
-  const labels: Record<AutomationTrigger, string> = {
-    CONTACT_CREATED: 'New contact created',
-    CONTACT_TAG_ADDED: 'Tag added to contact',
-    DEAL_CREATED: 'New deal created',
-    DEAL_STAGE_CHANGED: 'Deal stage changed',
-    DEAL_WON: 'Deal won',
-    DEAL_LOST: 'Deal lost',
-    BOOKING_CREATED: 'New booking created',
-    BOOKING_CONFIRMED: 'Booking confirmed',
-    BOOKING_CANCELLED: 'Booking cancelled',
-    PAYMENT_RECEIVED: 'Payment received',
-    FORM_SUBMITTED: 'Form submitted',
-  }
-  return labels[trigger] || trigger
-}
-
-// Helper to format action type for display
-export function formatActionType(action: AutomationAction): string {
-  const labels: Record<AutomationAction, string> = {
-    SEND_EMAIL: 'Send email',
-    ADD_TAG: 'Add tag',
-    REMOVE_TAG: 'Remove tag',
-    UPDATE_CONTACT_STATUS: 'Update contact status',
-    CREATE_TASK: 'Create task',
-    SEND_NOTIFICATION: 'Send notification',
-    WEBHOOK: 'Call webhook',
-    DELAY: 'Wait/Delay',
-  }
-  return labels[action] || action
-}
-
