@@ -49,16 +49,32 @@ export function FunnelViewer({ funnel }: FunnelViewerProps) {
   }
 
   const handleSubmit = async () => {
-    // TODO: Implement form submission logic
-    // This would create a contact, send emails, etc.
-    setSubmitted(true)
-    
-    // Increment conversion count
-    await fetch(`/api/funnels/${funnel.id}/convert`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    })
+    try {
+      setSubmitted(true)
+      
+      // Submit form data to conversion endpoint
+      const response = await fetch(`/api/funnels/${funnel.id}/convert`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          name: formData.name,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+        }),
+      })
+
+      const result = await response.json()
+      
+      if (!result.success) {
+        console.error('Failed to submit form:', result.error)
+        // Still show thank you page even if backend fails
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      // Still show thank you page even if request fails
+    }
   }
 
   if (submitted && currentStep.type === 'THANK_YOU') {
@@ -158,7 +174,7 @@ export function FunnelViewer({ funnel }: FunnelViewerProps) {
             {currentStep.type === 'OPT_IN_FORM' && (
               <div className="space-y-4 max-w-md mx-auto">
                 <div>
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">Email Address *</Label>
                   <Input
                     id="email"
                     type="email"
@@ -169,14 +185,49 @@ export function FunnelViewer({ funnel }: FunnelViewerProps) {
                     required
                   />
                 </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      type="text"
+                      placeholder="John"
+                      value={formData.firstName || ''}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      type="text"
+                      placeholder="Doe"
+                      value={formData.lastName || ''}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
                 <div>
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name">Full Name (or use First/Last above)</Label>
                   <Input
                     id="name"
                     type="text"
                     placeholder="John Doe"
                     value={formData.name || ''}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="+1 (555) 123-4567"
+                    value={formData.phone || ''}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="mt-1"
                   />
                 </div>
