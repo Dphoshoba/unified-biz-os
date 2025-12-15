@@ -16,6 +16,8 @@ import {
   FolderKanban,
   FileText,
   HardDrive,
+  BarChart3,
+  Inbox,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -40,6 +42,8 @@ const mainNavItems = [
   { name: 'CRM', href: '/crm', icon: Users },
   { name: 'Projects', href: '/projects', icon: FolderKanban },
   { name: 'Documents', href: '/documents', icon: FileText },
+  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+  { name: 'Inbox', href: '/inbox', icon: Inbox },
   { name: 'Drive', href: '/drive', icon: HardDrive },
   { name: 'Automations', href: '/automations', icon: Zap },
   { name: 'Bookings', href: '/bookings', icon: Calendar },
