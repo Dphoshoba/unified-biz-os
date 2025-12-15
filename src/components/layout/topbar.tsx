@@ -64,6 +64,7 @@ export function TopBar({ onMenuClick }: TopBarProps) {
             variant="outline"
             size="sm"
             className="hidden sm:flex items-center gap-2 rounded-xl border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
+            onClick={() => window.location.href = '/ai-assistant'}
           >
             <Sparkles className="h-4 w-4" />
             <span className="font-medium">AI Assistant</span>

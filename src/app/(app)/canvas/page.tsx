@@ -26,7 +26,9 @@ export default async function CanvasPage() {
           <div className="text-center py-16">
             <Palette className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
             <p className="text-muted-foreground mb-4">Interactive whiteboard coming soon</p>
-            <ComingSoonButton featureName="Canvas Whiteboard" />
+            <ComingSoonButton featureName="Canvas Whiteboard">
+              <Button variant="outline" className="rounded-xl">Learn More</Button>
+            </ComingSoonButton>
           </div>
         </CardContent>
       </Card>
@@ -44,7 +46,9 @@ export default async function CanvasPage() {
         <CardContent>
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">AI brainstorming coming soon</p>
-            <ComingSoonButton featureName="AI Brainstorm" />
+            <ComingSoonButton featureName="AI Brainstorm">
+              <Button variant="outline" className="rounded-xl">Learn More</Button>
+            </ComingSoonButton>
           </div>
         </CardContent>
       </Card>

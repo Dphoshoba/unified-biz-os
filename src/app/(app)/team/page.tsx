@@ -1,6 +1,7 @@
 import { Users, UserPlus, Briefcase } from 'lucide-react'
 import { PageHeader } from '@/components/layout/page-header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 
 export default async function TeamPage() {
@@ -25,7 +26,9 @@ export default async function TeamPage() {
           <CardContent>
             <div className="text-center py-8">
               <p className="text-muted-foreground mb-4">Team directory coming soon</p>
-              <ComingSoonButton featureName="Team Directory" />
+              <ComingSoonButton featureName="Team Directory">
+                <Button variant="outline" className="rounded-xl">Learn More</Button>
+              </ComingSoonButton>
             </div>
           </CardContent>
         </Card>
@@ -43,7 +46,9 @@ export default async function TeamPage() {
           <CardContent>
             <div className="text-center py-8">
               <p className="text-muted-foreground mb-4">Recruiting pipeline coming soon</p>
-              <ComingSoonButton featureName="Recruiting" />
+              <ComingSoonButton featureName="Recruiting">
+                <Button variant="outline" className="rounded-xl">Learn More</Button>
+              </ComingSoonButton>
             </div>
           </CardContent>
         </Card>

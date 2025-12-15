@@ -3,15 +3,16 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/auth-helpers'
-import { AutomationTrigger, AutomationAction, AutomationStatus, Prisma } from '@prisma/client'
+import { AutomationTrigger, AutomationAction, AutomationStatus } from '@prisma/client'
+import { JsonObject } from '@prisma/client/runtime/library'
 
 export type CreateAutomationInput = {
   name: string
   description?: string
   triggerType: AutomationTrigger
-  triggerConfig?: Record<string, unknown>
+  triggerConfig?: JsonObject
   actionType: AutomationAction
-  actionConfig?: Record<string, unknown>
+  actionConfig?: JsonObject
 }
 
 export type UpdateAutomationInput = {
@@ -19,9 +20,9 @@ export type UpdateAutomationInput = {
   name?: string
   description?: string
   triggerType?: AutomationTrigger
-  triggerConfig?: Record<string, unknown>
+  triggerConfig?: JsonObject
   actionType?: AutomationAction
-  actionConfig?: Record<string, unknown>
+  actionConfig?: JsonObject
   status?: AutomationStatus
 }
 
@@ -35,34 +36,54 @@ export async function getAutomations() {
     where: {
       organizationId: session.activeOrganizationId,
     },
-    orderBy: {
-      createdAt: 'desc',
-    },
+    orderBy: { createdAt: 'desc' },
   })
 
   return automations
 }
 
-export async function getAutomationStats() {
+export async function getAutomation(id: string) {
   const session = await getSession()
   if (!session?.activeOrganizationId) {
-    return { active: 0, total: 0, executions: 0 }
+    return null
   }
 
-  const automations = await db.automation.findMany({
+  const automation = await db.automation.findFirst({
     where: {
+      id,
       organizationId: session.activeOrganizationId,
-    },
-    select: {
-      status: true,
-      executions: true,
     },
   })
 
+  return automation
+}
+
+export async function getAutomationStats() {
+  const session = await getSession()
+  if (!session?.activeOrganizationId) {
+    return { total: 0, active: 0, executions: 0 }
+  }
+
+  const [total, active, executions] = await Promise.all([
+    db.automation.count({
+      where: { organizationId: session.activeOrganizationId },
+    }),
+    db.automation.count({
+      where: {
+        organizationId: session.activeOrganizationId,
+        status: 'ACTIVE',
+      },
+    }),
+    db.automation.aggregate({
+      where: { organizationId: session.activeOrganizationId },
+      _sum: { executions: true },
+    }),
+  ])
+
   return {
-    active: automations.filter(a => a.status === 'ACTIVE').length,
-    total: automations.length,
-    executions: automations.reduce((sum, a) => sum + a.executions, 0),
+    total,
+    active,
+    executions: executions._sum.executions || 0,
   }
 }
 
@@ -79,9 +100,9 @@ export async function createAutomation(input: CreateAutomationInput) {
         name: input.name,
         description: input.description,
         triggerType: input.triggerType,
-        triggerConfig: input.triggerConfig as Prisma.InputJsonValue | undefined,
+        triggerConfig: (input.triggerConfig || {}) as JsonObject,
         actionType: input.actionType,
-        actionConfig: input.actionConfig as Prisma.InputJsonValue | undefined,
+        actionConfig: (input.actionConfig || {}) as JsonObject,
         status: 'ACTIVE',
       },
     })
@@ -110,14 +131,15 @@ export async function updateAutomation(input: UpdateAutomationInput) {
         ...(input.name && { name: input.name }),
         ...(input.description !== undefined && { description: input.description }),
         ...(input.triggerType && { triggerType: input.triggerType }),
-        ...(input.triggerConfig && { triggerConfig: input.triggerConfig as Prisma.InputJsonValue }),
+        ...(input.triggerConfig !== undefined && { triggerConfig: input.triggerConfig as JsonObject }),
         ...(input.actionType && { actionType: input.actionType }),
-        ...(input.actionConfig && { actionConfig: input.actionConfig as Prisma.InputJsonValue }),
+        ...(input.actionConfig !== undefined && { actionConfig: input.actionConfig as JsonObject }),
         ...(input.status && { status: input.status }),
       },
     })
 
     revalidatePath('/automations')
+    revalidatePath(`/automations/${input.id}`)
     return { success: true, automation }
   } catch (error) {
     console.error('Failed to update automation:', error)
@@ -132,8 +154,11 @@ export async function toggleAutomationStatus(id: string) {
   }
 
   try {
-    const automation = await db.automation.findUnique({
-      where: { id, organizationId: session.activeOrganizationId },
+    const automation = await db.automation.findFirst({
+      where: {
+        id,
+        organizationId: session.activeOrganizationId,
+      },
     })
 
     if (!automation) {

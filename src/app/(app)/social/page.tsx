@@ -28,7 +28,9 @@ export default async function SocialPage() {
             <CardContent>
               <div className="text-center py-8">
                 <p className="text-muted-foreground mb-4">{platform.name} integration coming soon</p>
-                <ComingSoonButton featureName={`${platform.name} Integration`} />
+                <ComingSoonButton featureName={`${platform.name} Integration`}>
+                  <Button variant="outline" className="rounded-xl">Learn More</Button>
+                </ComingSoonButton>
               </div>
             </CardContent>
           </Card>
@@ -48,7 +50,9 @@ export default async function SocialPage() {
         <CardContent>
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">AI content generation coming soon</p>
-            <ComingSoonButton featureName="AI Social Content" />
+            <ComingSoonButton featureName="AI Social Content">
+              <Button variant="outline" className="rounded-xl">Learn More</Button>
+            </ComingSoonButton>
           </div>
         </CardContent>
       </Card>

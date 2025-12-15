@@ -56,7 +56,9 @@ export default async function CampaignsPage() {
         <CardContent>
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">AI content generation coming soon</p>
-            <ComingSoonButton featureName="AI Email Writer" />
+            <ComingSoonButton featureName="AI Email Writer">
+              <Button variant="outline" className="rounded-xl">Learn More</Button>
+            </ComingSoonButton>
           </div>
         </CardContent>
       </Card>

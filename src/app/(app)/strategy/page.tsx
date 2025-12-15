@@ -1,6 +1,7 @@
 import { Target, TrendingUp } from 'lucide-react'
 import { PageHeader } from '@/components/layout/page-header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 
 export default async function StrategyPage() {
@@ -25,7 +26,9 @@ export default async function StrategyPage() {
           <CardContent>
             <div className="text-center py-8">
               <p className="text-muted-foreground mb-4">OKR management coming soon</p>
-              <ComingSoonButton featureName="OKR Management" />
+              <ComingSoonButton featureName="OKR Management">
+                <Button variant="outline" className="rounded-xl">Learn More</Button>
+              </ComingSoonButton>
             </div>
           </CardContent>
         </Card>
@@ -43,7 +46,9 @@ export default async function StrategyPage() {
           <CardContent>
             <div className="text-center py-8">
               <p className="text-muted-foreground mb-4">Goal tracking coming soon</p>
-              <ComingSoonButton featureName="Goal Tracking" />
+              <ComingSoonButton featureName="Goal Tracking">
+                <Button variant="outline" className="rounded-xl">Learn More</Button>
+              </ComingSoonButton>
             </div>
           </CardContent>
         </Card>

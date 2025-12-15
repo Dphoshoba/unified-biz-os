@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Play, Pause, MoreHorizontal, Trash2 } from 'lucide-react'
+import Link from 'next/link'
+import { Play, Pause, MoreHorizontal, Trash2, Workflow } from 'lucide-react'
 import { AutomationStatus } from '@prisma/client'
 
 import { Button } from '@/components/ui/button'
@@ -70,8 +71,14 @@ export function AutomationActions({ id, status }: AutomationActionsProps) {
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="rounded-xl">
-            <DropdownMenuItem onClick={handleToggle} disabled={loading}>
+                <DropdownMenuContent align="end" className="rounded-xl">
+                  <DropdownMenuItem asChild>
+                    <Link href={`/automations/${id}/visual-builder`}>
+                      <Workflow className="h-4 w-4 mr-2" />
+                      Visual Builder
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleToggle} disabled={loading}>
               {isActive ? (
                 <>
                   <Pause className="h-4 w-4 mr-2" />
