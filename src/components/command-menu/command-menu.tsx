@@ -18,6 +18,15 @@ import {
   Building2,
   Plus,
   ArrowRight,
+  BarChart3,
+  Inbox,
+  HardDrive,
+  Scan,
+  Target as TargetIcon,
+  MessageSquare,
+  Users as UsersIcon,
+  Palette,
+  Mail,
 } from 'lucide-react'
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@/components/ui/command'
 
@@ -27,9 +36,13 @@ interface CommandMenuProps {
 }
 
 const navigationItems = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, keywords: ['home', 'overview'] },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, keywords: ['home', 'overview', 'ai brief'] },
   { name: 'CRM', href: '/crm', icon: Users, keywords: ['contacts', 'customers', 'deals', 'pipeline'] },
   { name: 'Projects', href: '/projects', icon: FolderKanban, keywords: ['tasks', 'kanban', 'gantt', 'milestones'] },
+  { name: 'Documents', href: '/documents', icon: FileText, keywords: ['proposals', 'contracts', 'templates'] },
+  { name: 'Analytics', href: '/analytics', icon: BarChart3, keywords: ['reports', 'charts', 'data', 'insights'] },
+  { name: 'Inbox', href: '/inbox', icon: Inbox, keywords: ['messages', 'emails', 'communication'] },
+  { name: 'Drive', href: '/drive', icon: HardDrive, keywords: ['files', 'storage', 'documents'] },
   { name: 'Automations', href: '/automations', icon: Zap, keywords: ['workflows', 'triggers'] },
   { name: 'Bookings', href: '/bookings', icon: Calendar, keywords: ['appointments', 'schedule', 'calendar'] },
   { name: 'Payments', href: '/payments', icon: CreditCard, keywords: ['invoices', 'stripe', 'billing'] },
@@ -42,6 +55,7 @@ const quickActions = [
   { name: 'New Contact', href: '/crm/contacts', icon: Users, keywords: ['add', 'create', 'contact'] },
   { name: 'New Deal', href: '/crm/deals', icon: FileText, keywords: ['add', 'create', 'deal', 'opportunity'] },
   { name: 'New Project', href: '/projects', icon: FolderKanban, keywords: ['add', 'create', 'project'] },
+  { name: 'New Document', href: '/documents', icon: FileText, keywords: ['add', 'create', 'proposal', 'contract'] },
   { name: 'New Booking', href: '/bookings', icon: Calendar, keywords: ['add', 'create', 'appointment'] },
   { name: 'New Invoice', href: '/payments/invoices', icon: CreditCard, keywords: ['add', 'create', 'invoice', 'bill'] },
   { name: 'New Automation', href: '/automations', icon: Zap, keywords: ['add', 'create', 'workflow'] },

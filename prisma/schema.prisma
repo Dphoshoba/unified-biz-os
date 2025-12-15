@@ -48,6 +48,9 @@ model User {
   // Project relations
   assignedTasks Task[] @relation("AssignedTasks")
 
+  // Drive relations
+  uploadedFiles File[] @relation("UploadedFiles")
+
   // Invitation relations
   sentInvitations Invitation[]
 
@@ -150,6 +153,14 @@ model Organization {
   // Project relations
   projects Project[]
 
+  // Document relations
+  documents Document[]
+  documentTemplates DocumentTemplate[]
+
+  // Drive relations
+  files File[]
+  folders Folder[]
+
   @@map("organizations")
 }
 
@@ -227,6 +238,7 @@ model Contact {
   deals        Deal[]
   activities   Activity[]
   tags         TagsOnContacts[]
+  documents    Document[]
   bookings     Booking[]
   invoices     Invoice[]
 
@@ -270,6 +282,7 @@ model Company {
   deals        Deal[]
   activities   Activity[]
   tags         TagsOnCompanies[]
+  documents    Document[]
 
   @@index([organizationId])
   @@map("companies")
@@ -957,4 +970,137 @@ enum TaskPriority {
   MEDIUM
   HIGH
   URGENT
+}
+
+// =============================================================================
+// DOCUMENTS
+// =============================================================================
+
+/// Document represents a proposal, contract, or other business document
+model Document {
+  id             String         @id @default(cuid())
+  organizationId String
+  name           String
+  type           DocumentType
+  templateId     String?        // Reference to template if created from one
+  content        Json?          // Rich document content (blocks, sections)
+  status         DocumentStatus @default(DRAFT)
+  
+  // Recipient info
+  contactId      String?
+  companyId     String?
+  
+  // Metadata
+  version       Int            @default(1)
+  signedAt      DateTime?
+  expiresAt     DateTime?
+  
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contact      Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  company      Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  template     DocumentTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId])
+  @@index([type])
+  @@index([status])
+  @@index([contactId])
+  @@map("documents")
+}
+
+/// DocumentTemplate represents a reusable document template
+model DocumentTemplate {
+  id             String       @id @default(cuid())
+  organizationId String
+  name           String
+  type           DocumentType
+  description    String?      @db.Text
+  content        Json         // Template content with variables
+  isPublic       Boolean      @default(false) // Can be used by other orgs
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  documents    Document[]
+
+  @@index([organizationId])
+  @@index([type])
+  @@map("document_templates")
+}
+
+enum DocumentType {
+  PROPOSAL
+  CONTRACT
+  QUOTE
+  STATEMENT_OF_WORK
+  NDA
+  INVOICE
+  OTHER
+}
+
+enum DocumentStatus {
+  DRAFT
+  SENT
+  VIEWED
+  SIGNED
+  REJECTED
+  EXPIRED
+}
+
+// =============================================================================
+// DRIVE (FILE MANAGEMENT)
+// =============================================================================
+
+/// File represents a file stored in Drive
+model File {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  type           String   // MIME type
+  size           Int      // Size in bytes
+  url            String   // Storage URL
+  folderId       String?
+  uploadedById   String
+  
+  // Metadata
+  description    String?  @db.Text
+  tags           String[] // Array of tags
+  isPublic       Boolean  @default(false)
+  
+  // AI Summary (for documents)
+  aiSummary      String?  @db.Text
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  folder       Folder?      @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  uploadedBy   User         @relation("UploadedFiles", fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([folderId])
+  @@index([uploadedById])
+  @@map("files")
+}
+
+/// Folder represents a folder in Drive
+model Folder {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  parentId       String?  // For nested folders
+  color          String   @default("#3B82F6")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  parent       Folder?      @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children     Folder[]     @relation("FolderHierarchy")
+  files        File[]
+
+  @@index([organizationId])
+  @@index([parentId])
+  @@map("folders")
 }

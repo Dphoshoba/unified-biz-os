@@ -14,6 +14,8 @@ import {
   ChevronDown,
   Building2,
   FolderKanban,
+  FileText,
+  HardDrive,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -37,6 +39,8 @@ const mainNavItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'CRM', href: '/crm', icon: Users },
   { name: 'Projects', href: '/projects', icon: FolderKanban },
+  { name: 'Documents', href: '/documents', icon: FileText },
+  { name: 'Drive', href: '/drive', icon: HardDrive },
   { name: 'Automations', href: '/automations', icon: Zap },
   { name: 'Bookings', href: '/bookings', icon: Calendar },
   { name: 'Payments', href: '/payments', icon: CreditCard },

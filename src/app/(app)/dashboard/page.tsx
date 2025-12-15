@@ -9,6 +9,9 @@ import {
   Phone,
   CheckCircle,
   Download,
+  Sparkles,
+  Bell,
+  Clock,
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 
@@ -17,6 +20,9 @@ import { KpiCard, ActivityItem } from '@/components/dashboard'
 import { ComingSoonButton } from '@/components/ui/coming-soon-button'
 import { requireAuthWithOrg } from '@/lib/auth-helpers'
 import { db } from '@/lib/db'
+import { generateAIBrief } from '@/lib/dashboard/ai-brief'
+import { getPulseEvents } from '@/lib/dashboard/pulse'
+import { Badge } from '@/components/ui/badge'
 
 // Get dashboard data
 async function getDashboardData(organizationId: string) {
@@ -192,7 +198,11 @@ function formatActivityTitle(activity: {
 
 export default async function DashboardPage() {
   const session = await requireAuthWithOrg()
-  const data = await getDashboardData(session.activeOrganizationId)
+  const [data, aiBrief, pulseEvents] = await Promise.all([
+    getDashboardData(session.activeOrganizationId),
+    generateAIBrief(session.activeOrganizationId),
+    getPulseEvents(session.activeOrganizationId),
+  ])
 
   return (
     <div className="p-6 lg:p-8 space-y-8">
@@ -209,6 +219,24 @@ export default async function DashboardPage() {
           Download Report
         </ComingSoonButton>
       </div>
+
+      {/* AI Brief */}
+      <Card className="rounded-2xl border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Sparkles className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-lg">AI Brief</CardTitle>
+              <p className="text-sm text-muted-foreground">Your daily business summary</p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-base leading-relaxed">{aiBrief.brief || 'No recent activity to summarize.'}</p>
+        </CardContent>
+      </Card>
 
       {/* KPI Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -252,6 +280,108 @@ export default async function DashboardPage() {
             label: 'vs last month',
           }}
         />
+      </div>
+
+      {/* Two Column Layout */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Nexus Pulse */}
+        <Card className="rounded-2xl shadow-card border-border/50">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-2">
+              <Bell className="h-5 w-5 text-primary" />
+              <CardTitle className="text-heading">Nexus Pulse</CardTitle>
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">Live feed of important events</p>
+          </CardHeader>
+          <CardContent className="pt-0">
+            {pulseEvents.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No recent events</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {pulseEvents.map((event) => {
+                  const eventIcons = {
+                    invoice_paid: DollarSign,
+                    new_lead: UserPlus,
+                    deal_won: TrendingUp,
+                    booking_confirmed: Calendar,
+                    payment_received: DollarSign,
+                    document_signed: FileText,
+                  }
+                  const Icon = eventIcons[event.type] || Bell
+                  const eventColors = {
+                    invoice_paid: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
+                    new_lead: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
+                    deal_won: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300',
+                    booking_confirmed: 'bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300',
+                    payment_received: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
+                    document_signed: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
+                  }
+                  return (
+                    <div key={event.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                      <div className={`h-8 w-8 rounded-lg ${eventColors[event.type]} flex items-center justify-center shrink-0`}>
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="font-medium text-sm">{event.title}</p>
+                          <Badge variant="outline" className="text-xs">
+                            {formatDistanceToNow(event.timestamp, { addSuffix: true })}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{event.description}</p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Upcoming */}
+        <Card className="rounded-2xl shadow-card border-border/50">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-primary" />
+              <CardTitle className="text-heading">Upcoming</CardTitle>
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">Your next 3 appointments</p>
+          </CardHeader>
+          <CardContent className="pt-0">
+            {aiBrief.upcomingBookings.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No upcoming appointments</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {aiBrief.upcomingBookings.map((booking) => (
+                  <div key={booking.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Calendar className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{booking.service.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {booking.contact ? `${booking.contact.firstName} ${booking.contact.lastName}` : booking.guestName}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {new Date(booking.startTime).toLocaleDateString('en-US', {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: 'numeric',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Recent Activity */}
