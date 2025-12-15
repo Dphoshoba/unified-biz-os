@@ -13,6 +13,7 @@ import {
   HelpCircle,
   ChevronDown,
   Building2,
+  FolderKanban,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -35,6 +36,7 @@ interface SidebarProps {
 const mainNavItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'CRM', href: '/crm', icon: Users },
+  { name: 'Projects', href: '/projects', icon: FolderKanban },
   { name: 'Automations', href: '/automations', icon: Zap },
   { name: 'Bookings', href: '/bookings', icon: Calendar },
   { name: 'Payments', href: '/payments', icon: CreditCard },

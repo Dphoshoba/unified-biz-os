@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Sidebar } from './sidebar'
 import { TopBar } from './topbar'
+import { CommandMenu } from '@/components/command-menu/command-menu'
 import { cn } from '@/lib/utils'
 
 interface AppShellProps {
@@ -89,6 +90,9 @@ export function AppShell({
           {children}
         </main>
       </div>
+
+      {/* Command Menu */}
+      <CommandMenu />
     </div>
   )
 }
