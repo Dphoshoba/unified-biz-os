@@ -6,6 +6,7 @@ import { Check, ChevronsUpDown, Plus, Building2 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/ui/logo'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,9 +62,17 @@ export function OrgSwitcher({
 
   if (collapsed) {
     return (
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
-        {activeOrganization?.name?.[0]?.toUpperCase() || 'E'}
-      </div>
+      <img 
+        src={activeOrganization?.logo || '/logo.png.png'} 
+        alt={activeOrganization?.name || 'Eternal Echoes & Visions'}
+        className="h-10 w-10 rounded-lg object-contain"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement
+          target.style.display = 'none'
+          const fallback = target.nextElementSibling as HTMLElement
+          if (fallback) fallback.style.display = 'flex'
+        }}
+      />
     )
   }
 
@@ -99,9 +108,12 @@ export function OrgSwitcher({
             className="cursor-pointer"
           >
             <div className="flex items-center gap-2 flex-1">
-              <div className="flex h-6 w-6 items-center justify-center rounded bg-muted text-xs font-medium">
-                {org.name[0].toUpperCase()}
-              </div>
+              <Logo 
+                src={org.logo}
+                alt={org.name}
+                className="h-6 w-6 rounded object-contain"
+                fallback={org.name[0].toUpperCase()}
+              />
               <div className="flex-1 truncate">
                 <span className="text-sm">{org.name}</span>
               </div>

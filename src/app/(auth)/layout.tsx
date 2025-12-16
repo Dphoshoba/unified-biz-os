@@ -6,9 +6,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Header */}
       <header className="p-6">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-            E
-          </div>
+          <img 
+            src="/logo.png.png" 
+            alt="Eternal Echoes & Visions"
+            className="h-8 w-8 rounded-lg object-contain"
+          />
           <span className="text-lg font-semibold">Eternal Echoes & Visions</span>
         </Link>
       </header>
