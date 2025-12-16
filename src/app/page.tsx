@@ -72,14 +72,14 @@ export default async function LandingPage() {
 
             {/* Description */}
             <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
-              Nexus unifies your CRM, Project Management, Finance, and AI Automation into one seamless platform. Stop switching apps. Start growing.
+              Unified-Biz-OS (Operating System) unifies your CRM, Project Management, Finance, and AI Automation into one seamless platform. Stop switching apps. Start growing.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/auth/sign-up">
                 <Button size="lg" className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8">
-                  Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+                  Get Started <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <a href="#features" className="scroll-smooth">
@@ -212,7 +212,7 @@ export default async function LandingPage() {
                 Tailored for your specific workflow
               </h2>
               <p className="text-xl text-gray-600 mb-8">
-                Whether you&apos;re a lean startup or a scaling enterprise, Nexus adapts to your team structure and goals.
+                Whether you&apos;re a lean startup or a scaling enterprise, Unified-Biz-OS adapts to your team structure and goals.
               </p>
 
               <div className="space-y-6">
@@ -282,17 +282,17 @@ export default async function LandingPage() {
               Simple, transparent pricing
             </h2>
             <p className="text-xl text-gray-600">
-              Start for free, upgrade as you grow.
+              Choose the plan that fits your business needs.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Starter Plan */}
             <div className="bg-white rounded-xl p-8 border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
-              <p className="text-gray-600 mb-6">For individuals and freelancers.</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter Plan</h3>
+              <p className="text-gray-600 mb-6">Perfect for individuals and small teams</p>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">$0</span>
+                <span className="text-4xl font-bold text-gray-900">$29</span>
                 <span className="text-gray-600">/mo</span>
               </div>
               <ul className="space-y-4 mb-8">
@@ -305,7 +305,7 @@ export default async function LandingPage() {
               </ul>
               <Link href="/auth/sign-up" className="block">
                 <Button variant="outline" className="w-full">
-                  Start Free
+                  Get Started
                 </Button>
               </Link>
             </div>
@@ -317,10 +317,10 @@ export default async function LandingPage() {
                   MOST POPULAR
                 </span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
-              <p className="text-gray-600 mb-6">For growing teams and startups.</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro Plan</h3>
+              <p className="text-gray-600 mb-6">For growing businesses with advanced needs</p>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">$29</span>
+                <span className="text-4xl font-bold text-gray-900">$99</span>
                 <span className="text-gray-600">/mo</span>
               </div>
               <ul className="space-y-4 mb-8">
@@ -338,12 +338,12 @@ export default async function LandingPage() {
               </Link>
             </div>
 
-            {/* Business Plan */}
+            {/* Enterprise Plan */}
             <div className="bg-white rounded-xl p-8 border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Business</h3>
-              <p className="text-gray-600 mb-6">For scaling organizations.</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise Plan</h3>
+              <p className="text-gray-600 mb-6">Custom solutions for large organizations</p>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">$99</span>
+                <span className="text-4xl font-bold text-gray-900">$299</span>
                 <span className="text-gray-600">/mo</span>
               </div>
               <ul className="space-y-4 mb-8">
@@ -371,12 +371,12 @@ export default async function LandingPage() {
             Ready to streamline your business?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Join thousands of companies running on Nexus OS.
+            Join thousands of companies running on Unified-Biz-OS.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/sign-up">
               <Button size="lg" variant="outline" className="bg-white text-[#6366f1] hover:bg-gray-100 border-white px-8">
-                Get Started for Free
+                Get Started
               </Button>
             </Link>
             <Link href="/support">
