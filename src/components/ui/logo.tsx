@@ -11,7 +11,7 @@ interface LogoProps {
 
 export function Logo({ src, alt = 'Eternal Echoes & Visions', className = '', fallback = 'E' }: LogoProps) {
   const [imageError, setImageError] = useState(false)
-  const logoPath = src || '/logo.png.png'
+  const logoPath = src || '/logo.png'
 
   if (imageError) {
     return (
