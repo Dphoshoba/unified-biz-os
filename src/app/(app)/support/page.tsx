@@ -2,10 +2,9 @@ import Link from 'next/link'
 import { Search, Book, Video, MessageSquare, ExternalLink } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ContactSupportForm } from './contact-support-form'
 
 const faqItems = [
   {
@@ -138,30 +137,7 @@ export default function SupportPage() {
           </div>
 
           {/* Contact Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Support</CardTitle>
-              <CardDescription>
-                Can't find what you're looking for? Send us a message.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" placeholder="Brief description..." />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  placeholder="Describe your issue or question..."
-                  className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                />
-              </div>
-              <Button className="w-full">Send Message</Button>
-            </CardContent>
-          </Card>
+          <ContactSupportForm />
         </div>
       </div>
     </div>
