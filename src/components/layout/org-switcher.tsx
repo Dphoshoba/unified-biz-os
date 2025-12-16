@@ -62,16 +62,11 @@ export function OrgSwitcher({
 
   if (collapsed) {
     return (
-      <img 
-        src={activeOrganization?.logo || '/logo.png'} 
+      <Logo 
+        src={activeOrganization?.logo}
         alt={activeOrganization?.name || 'Eternal Echoes & Visions'}
         className="h-10 w-10 rounded-lg object-contain"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement
-          target.style.display = 'none'
-          const fallback = target.nextElementSibling as HTMLElement
-          if (fallback) fallback.style.display = 'flex'
-        }}
+        fallback={activeOrganization?.name?.[0]?.toUpperCase() || 'E'}
       />
     )
   }
@@ -84,9 +79,12 @@ export function OrgSwitcher({
           className="w-full justify-start gap-3 px-2 h-12"
           disabled={isLoading}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-            {activeOrganization?.name?.[0]?.toUpperCase() || 'E'}
-          </div>
+          <Logo 
+            src={activeOrganization?.logo}
+            alt={activeOrganization?.name || 'Eternal Echoes & Visions'}
+            className="h-8 w-8 rounded-lg object-contain"
+            fallback={activeOrganization?.name?.[0]?.toUpperCase() || 'E'}
+          />
           <div className="flex flex-1 flex-col items-start text-left overflow-hidden">
             <span className="text-sm font-semibold truncate w-full">
               {activeOrganization?.name || 'Select Organization'}
