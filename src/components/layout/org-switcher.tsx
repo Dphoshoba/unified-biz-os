@@ -62,7 +62,7 @@ export function OrgSwitcher({
   if (collapsed) {
     return (
       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
-        {activeOrganization?.name?.[0]?.toUpperCase() || 'U'}
+        {activeOrganization?.name?.[0]?.toUpperCase() || 'E'}
       </div>
     )
   }
@@ -76,7 +76,7 @@ export function OrgSwitcher({
           disabled={isLoading}
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-            {activeOrganization?.name?.[0]?.toUpperCase() || 'U'}
+            {activeOrganization?.name?.[0]?.toUpperCase() || 'E'}
           </div>
           <div className="flex flex-1 flex-col items-start text-left overflow-hidden">
             <span className="text-sm font-semibold truncate w-full">

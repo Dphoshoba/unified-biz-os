@@ -81,7 +81,7 @@ export default function GettingStartedPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Getting Started Guide</h1>
         <p className="text-lg text-muted-foreground">
-          Welcome to UnifiedBizOS! Follow these steps to set up your business platform.
+          Welcome to Eternal Echoes & Visions! Follow these steps to set up your business platform.
         </p>
       </div>
 

@@ -50,7 +50,7 @@ export default function CommunityPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Community Forum</h1>
         <p className="text-lg text-muted-foreground">
-          Connect with other UnifiedBizOS users, share knowledge, and get help.
+          Connect with other Eternal Echoes & Visions users, share knowledge, and get help.
         </p>
       </div>
 
@@ -164,7 +164,7 @@ export default function CommunityPage() {
             <div className="flex items-center gap-3">
               <Star className="h-8 w-8 text-yellow-500" />
               <div>
-                <h3 className="font-semibold">UnifiedBizOS is Open Source!</h3>
+                <h3 className="font-semibold">Eternal Echoes & Visions</h3>
                 <p className="text-sm text-muted-foreground">
                   Star us on GitHub and contribute to the project.
                 </p>

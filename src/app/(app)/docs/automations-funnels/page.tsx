@@ -20,7 +20,7 @@ export default function AutomationsFunnelsGuidePage() {
 
       <PageHeader
         title="Automations & Funnels Guide"
-        description="Complete guide to using automations and funnels in UnifiedBizOS"
+        description="Complete guide to using automations and funnels in Eternal Echoes & Visions"
       />
 
       {/* Quick Navigation */}

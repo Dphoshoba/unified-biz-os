@@ -73,7 +73,7 @@ export function OnboardingForm() {
           <div className="space-y-2">
             <Label htmlFor="slug">URL Slug</Label>
             <div className="flex items-center">
-              <span className="text-sm text-muted-foreground mr-2">app.unifiedbizos.com/</span>
+              <span className="text-sm text-muted-foreground mr-2">app.eternalechoesvisions.com/</span>
               <Input
                 id="slug"
                 name="slug"

@@ -7,9 +7,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <header className="p-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-            U
+            E
           </div>
-          <span className="text-lg font-semibold">UnifiedBizOS</span>
+          <span className="text-lg font-semibold">Eternal Echoes & Visions</span>
         </Link>
       </header>
 
@@ -20,7 +20,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       {/* Footer */}
       <footer className="p-6 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} UnifiedBizOS. All rights reserved.
+        © {new Date().getFullYear()} Eternal Echoes & Visions. All rights reserved.
+        <br />
+        Rev David Oshoba George
       </footer>
     </div>
   )

@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'UnifiedBizOS | All-in-One Business Platform',
+  title: 'Eternal Echoes & Visions | All-in-One Business Platform',
   description:
     'CRM, Automations, Bookings, Payments, and Funnels - everything your business needs in one platform.',
   keywords: ['CRM', 'Business', 'SaaS', 'Automation', 'Bookings', 'Payments'],

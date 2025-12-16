@@ -5,7 +5,7 @@ const baseLayout = (content: string) => `
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UnifiedBizOS</title>
+  <title>Eternal Echoes & Visions</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -90,8 +90,9 @@ const baseLayout = (content: string) => `
       ${content}
     </div>
     <div class="footer">
-      <p>© ${new Date().getFullYear()} UnifiedBizOS. All rights reserved.</p>
-      <p>This email was sent by UnifiedBizOS</p>
+      <p>© ${new Date().getFullYear()} Eternal Echoes & Visions. All rights reserved.</p>
+      <p>This email was sent by Eternal Echoes & Visions</p>
+      <p>Rev David Oshoba George</p>
     </div>
   </div>
 </body>
@@ -116,7 +117,7 @@ export function invitationEmailTemplate(data: InvitationEmailData): { html: stri
     <div class="content">
       <p>Hi${data.inviteeName ? ` ${data.inviteeName}` : ''},</p>
       
-      <p><strong>${data.inviterName}</strong> has invited you to join <strong>${data.organizationName}</strong> on UnifiedBizOS.</p>
+      <p><strong>${data.inviterName}</strong> has invited you to join <strong>${data.organizationName}</strong> on Eternal Echoes & Visions.</p>
       
       <div class="info-box">
         <div class="info-row">
@@ -157,7 +158,7 @@ You're Invited to ${data.organizationName}!
 
 Hi${data.inviteeName ? ` ${data.inviteeName}` : ''},
 
-${data.inviterName} has invited you to join ${data.organizationName} on UnifiedBizOS.
+${data.inviterName} has invited you to join ${data.organizationName} on Eternal Echoes & Visions.
 
 Organization: ${data.organizationName}
 Your Role: ${data.role}
@@ -169,7 +170,7 @@ This invitation expires on ${data.expiresAt.toLocaleDateString()}.
 
 If you didn't expect this invitation, you can safely ignore this email.
 
-© ${new Date().getFullYear()} UnifiedBizOS
+© ${new Date().getFullYear()} Eternal Echoes & Visions
   `.trim()
 
   return { html, text }
@@ -254,7 +255,7 @@ We look forward to seeing you!
 
 Need to make changes? Contact ${data.organizationName} to reschedule or cancel.
 
-© ${new Date().getFullYear()} UnifiedBizOS
+© ${new Date().getFullYear()} Eternal Echoes & Visions
   `.trim()
 
   return { html, text }
@@ -270,7 +271,7 @@ export interface WelcomeEmailData {
 export function welcomeEmailTemplate(data: WelcomeEmailData): { html: string; text: string } {
   const html = baseLayout(`
     <div class="header">
-      <h1>Welcome to UnifiedBizOS! 🚀</h1>
+      <h1>Welcome to Eternal Echoes & Visions! 🚀</h1>
     </div>
     <div class="content">
       <p>Hi ${data.userName},</p>
@@ -293,12 +294,13 @@ export function welcomeEmailTemplate(data: WelcomeEmailData): { html: string; te
       <p>If you have any questions, visit our <a href="${data.loginUrl}/support">Help Center</a> or contact support.</p>
       
       <p>Happy growing! 🌱</p>
-      <p><em>The UnifiedBizOS Team</em></p>
+      <p><em>Rev David Oshoba George</em></p>
+      <p><em>Eternal Echoes & Visions</em></p>
     </div>
   `)
 
   const text = `
-Welcome to UnifiedBizOS!
+Welcome to Eternal Echoes & Visions!
 
 Hi ${data.userName},
 
@@ -316,9 +318,10 @@ Get started: ${data.loginUrl}
 If you have any questions, visit our Help Center or contact support.
 
 Happy growing!
-The UnifiedBizOS Team
+Rev David Oshoba George
+Eternal Echoes & Visions
 
-© ${new Date().getFullYear()} UnifiedBizOS
+© ${new Date().getFullYear()} Eternal Echoes & Visions
   `.trim()
 
   return { html, text }
@@ -368,7 +371,7 @@ This link will expire in ${data.expiresIn}.
 
 If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.
 
-© ${new Date().getFullYear()} UnifiedBizOS
+© ${new Date().getFullYear()} Eternal Echoes & Visions
   `.trim()
 
   return { html, text }
@@ -475,7 +478,7 @@ Pay now: ${data.paymentUrl}
 
 Questions? Contact ${data.organizationName} for assistance.
 
-© ${new Date().getFullYear()} UnifiedBizOS
+© ${new Date().getFullYear()} Eternal Echoes & Visions
   `.trim()
 
   return { html, text }

@@ -26,6 +26,7 @@ interface SidebarProps {
     id: string
     name: string
     slug: string
+    logo?: string | null
   } | null
   userOrganizations?: Array<{
     organization: {
@@ -105,12 +106,20 @@ export function Sidebar({ activeOrganization, mobile = false }: SidebarProps) {
         {/* Logo & App Name */}
         <div className="px-4 py-6">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
-              <span className="text-lg font-bold text-white">U</span>
-            </div>
+            {activeOrganization?.logo ? (
+              <img 
+                src={activeOrganization.logo} 
+                alt="Eternal Echoes & Visions"
+                className="h-10 w-10 rounded-xl object-contain"
+              />
+            ) : (
+              <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
+                <span className="text-lg font-bold text-white">E</span>
+              </div>
+            )}
             <div>
               <h1 className="text-lg font-semibold text-sidebar-foreground">
-                UnifiedBizOS
+                {activeOrganization?.name || 'Eternal Echoes & Visions'}
               </h1>
             </div>
           </div>

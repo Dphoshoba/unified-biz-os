@@ -44,7 +44,7 @@ const resources = [
   },
   {
     title: 'Getting Started Guide',
-    description: 'Learn the basics of UnifiedBizOS',
+    description: 'Learn the basics of Eternal Echoes & Visions',
     icon: Book,
     href: '/docs/getting-started',
   },

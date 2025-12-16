@@ -20,7 +20,7 @@ import { TutorialCard } from './tutorial-card'
  */
 const tutorials = [
   {
-    title: 'Getting Started with UnifiedBizOS',
+    title: 'Getting Started with Eternal Echoes & Visions',
     description: 'A complete overview of the platform and its main features.',
     duration: '5 min',
     category: 'Basics',
@@ -106,7 +106,7 @@ export default function TutorialsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Video Tutorials</h1>
         <p className="text-lg text-muted-foreground">
-          Watch step-by-step guides to master UnifiedBizOS.
+          Watch step-by-step guides to master Eternal Echoes & Visions.
         </p>
       </div>
 
@@ -157,7 +157,7 @@ export default function TutorialsPage() {
           <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
           <h3 className="font-semibold mb-2">More Tutorials Coming Soon!</h3>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
-            We're constantly adding new tutorials to help you get the most out of UnifiedBizOS.
+            We're constantly adding new tutorials to help you get the most out of Eternal Echoes & Visions.
             Check back regularly for updates.
           </p>
         </CardContent>

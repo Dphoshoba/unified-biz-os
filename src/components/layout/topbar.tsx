@@ -94,9 +94,12 @@ export function TopBar({ onMenuClick }: TopBarProps) {
             <DropdownMenuContent align="end" className="w-56 rounded-xl">
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium">{user?.name}</p>
+                  <p className="text-sm font-medium">{user?.name || 'Rev David Oshoba George'}</p>
                   <p className="text-xs text-muted-foreground truncate">
                     {user?.email}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Eternal Echoes & Visions
                   </p>
                 </div>
               </DropdownMenuLabel>

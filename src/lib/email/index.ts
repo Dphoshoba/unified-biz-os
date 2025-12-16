@@ -39,7 +39,7 @@ export interface EmailOptions {
 
 export async function sendEmail(options: EmailOptions): Promise<{ success: boolean; error?: string }> {
   const provider = getProvider()
-  const from = options.from || process.env.EMAIL_FROM || 'UnifiedBizOS <noreply@unifiedbizos.com>'
+  const from = options.from || process.env.EMAIL_FROM || 'Eternal Echoes & Visions <noreply@eternalechoesvisions.com>'
 
   try {
     if (provider === 'resend' && process.env.RESEND_API_KEY) {

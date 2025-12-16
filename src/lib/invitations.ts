@@ -200,7 +200,7 @@ export async function createInvitation(input: CreateInvitationInput) {
 
   const emailResult = await sendEmail({
     to: email,
-    subject: `You've been invited to join ${organization?.name || 'a team'} on UnifiedBizOS`,
+    subject: `You've been invited to join ${organization?.name || 'a team'} on Eternal Echoes & Visions`,
     html: emailData.html,
     text: emailData.text,
   })

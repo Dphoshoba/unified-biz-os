@@ -116,7 +116,7 @@ async function executeSendEmail(
   actionConfig: Record<string, unknown>
 ) {
   const to = context.email as string
-  const subject = (actionConfig.subject as string) || 'Notification from UnifiedBizOS'
+  const subject = (actionConfig.subject as string) || 'Notification from Eternal Echoes & Visions'
   const body = (actionConfig.body as string) || 'You have a new notification.'
 
   if (!to) {
