@@ -5,14 +5,18 @@ import { Upload, Loader2, CheckCircle, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { scanReceipt, scanBusinessCard, ReceiptData, BusinessCardData } from '@/lib/smart-scan/ocr'
+import { useRouter } from 'next/navigation'
 
 interface SmartScanUploadProps {
   type: 'receipt' | 'business-card'
 }
 
 export function SmartScanUpload({ type }: SmartScanUploadProps) {
+  const router = useRouter()
   const [uploading, setUploading] = useState(false)
-  const [result, setResult] = useState<any>(null)
+  const [progress, setProgress] = useState(0)
+  const [result, setResult] = useState<ReceiptData | BusinessCardData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useState<HTMLInputElement | null>(null)[0]
 
@@ -20,43 +24,56 @@ export function SmartScanUpload({ type }: SmartScanUploadProps) {
     const file = e.target.files?.[0]
     if (!file) return
 
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please upload an image file')
+      return
+    }
+
     setUploading(true)
     setError(null)
     setResult(null)
+    setProgress(0)
 
-    // Simulate AI processing
-    setTimeout(() => {
+    try {
       if (type === 'receipt') {
-        setResult({
-          vendor: 'Office Supplies Co.',
-          date: new Date().toLocaleDateString(),
-          amount: '$45.99',
-          items: ['Printer Paper', 'Pens', 'Staples'],
-        })
+        setProgress(30)
+        const receiptData = await scanReceipt(file)
+        setResult(receiptData)
       } else {
-        setResult({
-          name: 'John Doe',
-          email: 'john.doe@example.com',
-          phone: '+1 (555) 123-4567',
-          company: 'Acme Corporation',
-          title: 'Sales Manager',
-        })
+        setProgress(30)
+        const cardData = await scanBusinessCard(file)
+        setResult(cardData)
       }
+      setProgress(100)
+    } catch (err) {
+      console.error('OCR error:', err)
+      setError(err instanceof Error ? err.message : 'Failed to process image')
+    } finally {
       setUploading(false)
-    }, 2000)
+      setProgress(0)
+    }
   }
 
   const handleCreateContact = () => {
     if (type === 'business-card' && result) {
-      // TODO: Navigate to create contact with pre-filled data
-      alert(`Creating contact: ${result.name}`)
+      const cardData = result as BusinessCardData
+      // Navigate to create contact with pre-filled data
+      const params = new URLSearchParams()
+      if (cardData.name) params.set('name', cardData.name)
+      if (cardData.email) params.set('email', cardData.email)
+      if (cardData.phone) params.set('phone', cardData.phone)
+      if (cardData.company) params.set('company', cardData.company)
+      if (cardData.title) params.set('title', cardData.title)
+      router.push(`/crm/contacts?${params.toString()}`)
     }
   }
 
   const handleCreateExpense = () => {
     if (type === 'receipt' && result) {
+      const receiptData = result as ReceiptData
       // TODO: Navigate to create expense with pre-filled data
-      alert(`Creating expense: ${result.vendor} - ${result.amount}`)
+      alert(`Creating expense: ${receiptData.vendor} - ${receiptData.amount}`)
     }
   }
 
@@ -112,7 +129,7 @@ export function SmartScanUpload({ type }: SmartScanUploadProps) {
                 </Button>
               </div>
               
-              {type === 'receipt' ? (
+              {type === 'receipt' && 'vendor' in result ? (
                 <>
                   <div>
                     <p className="text-xs text-muted-foreground">Vendor</p>
@@ -140,7 +157,7 @@ export function SmartScanUpload({ type }: SmartScanUploadProps) {
                     Create Expense
                   </Button>
                 </>
-              ) : (
+              ) : type === 'business-card' && 'name' in result ? (
                 <>
                   <div>
                     <p className="text-xs text-muted-foreground">Name</p>
@@ -170,7 +187,7 @@ export function SmartScanUpload({ type }: SmartScanUploadProps) {
                     Create Contact
                   </Button>
                 </>
-              )}
+              ) : null}
             </div>
           </CardContent>
         </Card>

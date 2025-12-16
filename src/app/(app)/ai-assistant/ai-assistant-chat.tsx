@@ -45,39 +45,51 @@ export function AIAssistantChat() {
       timestamp: new Date(),
     }
 
+    const userInput = input
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setLoading(true)
 
-    // Simulate AI response
-    setTimeout(() => {
-      const lowerInput = input.toLowerCase()
-      let response = ''
+    try {
+      // Call AI API
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userInput }),
+      })
 
-      if (lowerInput.includes('schedule') || lowerInput.includes('today')) {
-        response = 'You have 3 appointments scheduled for today:\n\n1. 10:00 AM - Consultation with Acme Corp\n2. 2:00 PM - Follow-up call with Tech Solutions\n3. 4:30 PM - Project review meeting\n\nWould you like details on any of these?'
-      } else if (lowerInput.includes('top') && lowerInput.includes('client')) {
-        response = 'Your top 3 paying clients are:\n\n1. Acme Corp - $12,500 total revenue\n2. Tech Solutions - $8,200 total revenue\n3. Global Industries - $6,100 total revenue\n\nWould you like to see more details about any of these clients?'
-      } else if (lowerInput.includes('revenue') || lowerInput.includes('month')) {
-        response = 'Your total revenue this month is $45,230. This represents a 12% increase from last month. Your top revenue sources are:\n\n- Deals: $32,000\n- Invoices: $10,500\n- Subscriptions: $2,730'
-      } else if (lowerInput.includes('appointment') || lowerInput.includes('booking')) {
-        response = 'You have 5 upcoming appointments:\n\n- Tomorrow: 2:00 PM with John Doe\n- Thursday: 10:00 AM with Jane Smith\n- Friday: 3:30 PM with Bob Johnson\n\nWould you like to see the full calendar?'
-      } else if (lowerInput.includes('deal')) {
-        response = 'You currently have 8 active deals with a total value of $125,000. 3 deals are expected to close this week:\n\n- Acme Corp Deal - $25,000 (90% probability)\n- Tech Solutions - $18,000 (75% probability)\n- Startup Inc - $12,000 (60% probability)'
+      const data = await response.json()
+
+      if (data.success) {
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.response,
+          timestamp: new Date(),
+        }
+        setMessages((prev) => [...prev, assistantMessage])
       } else {
-        response = 'I understand you\'re asking about your business data. Based on my analysis:\n\n- You have 234 active contacts\n- 15 bookings scheduled this week\n- $45,230 in revenue this month\n- 8 active deals worth $125,000\n\nHow can I help you dive deeper into any of these areas?'
+        // Fallback response
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.fallback || 'I apologize, but I\'m having trouble processing your request right now. Please try again later.',
+          timestamp: new Date(),
+        }
+        setMessages((prev) => [...prev, assistantMessage])
       }
-
+    } catch (error) {
+      console.error('Failed to send message:', error)
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: response,
+        content: 'I apologize, but I\'m having trouble connecting right now. Please check your internet connection and try again.',
         timestamp: new Date(),
       }
-
       setMessages((prev) => [...prev, assistantMessage])
+    } finally {
       setLoading(false)
-    }, 1500)
+    }
   }
 
   return (

@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import { Upload, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { uploadFile, UploadFileInput } from '@/lib/drive/actions'
 
 export function UploadFileButton() {
   const router = useRouter()
@@ -17,42 +16,30 @@ export function UploadFileButton() {
 
     setUploading(true)
     try {
-      // TODO: Implement actual file upload to storage (S3, Cloudinary, etc.)
-      // For now, create a data URL for small files or use a placeholder
-      let fileUrl: string
-      if (file.size < 5 * 1024 * 1024) { // 5MB limit for data URLs
-        const reader = new FileReader()
-        reader.onload = async (e) => {
-          const dataUrl = e.target?.result as string
-          const input: UploadFileInput = {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            url: dataUrl,
-          }
-          await uploadFile(input)
-          router.refresh()
-          setUploading(false)
-        }
-        reader.readAsDataURL(file)
-        return
+      // Upload file to server
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/drive/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to upload file')
+      }
+
+      const result = await response.json()
+      
+      if (result.success) {
+        router.refresh()
       } else {
-        // For larger files, use a placeholder URL
-        fileUrl = `placeholder://${file.name}`
+        throw new Error(result.error || 'Upload failed')
       }
-      
-      const input: UploadFileInput = {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        url: fileUrl,
-      }
-      
-      await uploadFile(input)
-      router.refresh()
     } catch (error) {
       console.error('Failed to upload file:', error)
-      alert('Failed to upload file')
+      alert(error instanceof Error ? error.message : 'Failed to upload file')
     } finally {
       setUploading(false)
       if (fileInputRef.current) {

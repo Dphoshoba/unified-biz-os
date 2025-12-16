@@ -130,6 +130,7 @@ export async function getUpcomingBookings(limit = 10) {
 
 export async function getBookingsForCalendar(date: Date) {
   const session = await requireAuthWithOrg()
+
   const weekStart = startOfWeek(date, { weekStartsOn: 1 })
   const weekEnd = endOfWeek(date, { weekStartsOn: 1 })
 
@@ -145,6 +146,9 @@ export async function getBookingsForCalendar(date: Date) {
       },
       provider: {
         select: { id: true, name: true },
+      },
+      contact: {
+        select: { id: true, firstName: true, lastName: true, email: true },
       },
     },
     orderBy: { startTime: 'asc' },
@@ -367,6 +371,33 @@ export async function createPublicBooking(
       contact: { select: { id: true, email: true } },
     },
   })
+
+  // Sync to calendar if integration exists
+  try {
+    const integration = await db.calendarIntegration.findFirst({
+      where: {
+        organizationId: org.id,
+        isActive: true,
+        syncEnabled: true,
+        provider: 'GOOGLE',
+      },
+    })
+
+    if (integration) {
+      const { syncBookingToGoogle } = await import('@/lib/calendar/google')
+      await syncBookingToGoogle(integration.accessToken, {
+        title: `${booking.service.name} - ${input.guestName}`,
+        startTime: input.startTime,
+        endTime: endTime,
+        description: input.notes || undefined,
+        location: undefined, // Location can be added to CreateBookingInput if needed
+        attendeeEmails: input.guestEmail ? [input.guestEmail] : undefined,
+      })
+    }
+  } catch (error) {
+    // Don't fail booking creation if calendar sync fails
+    console.error('Failed to sync booking to calendar:', error)
+  }
 
   // Trigger BOOKING_CREATED automations
   try {

@@ -131,6 +131,12 @@ model Organization {
   deals      Deal[]
   pipelines  Pipeline[]
   tags       Tag[]
+  
+  // Campaign relations
+  campaigns  Campaign[]
+  
+  // Social media relations
+  socialPosts SocialPost[]
   activities Activity[]
 
   // Booking relations
@@ -160,6 +166,12 @@ model Organization {
   // Drive relations
   files File[]
   folders Folder[]
+
+  // Strategy relations
+  objectives Objective[]
+
+  // Calendar integration
+  calendarIntegrations CalendarIntegration[]
 
   @@map("organizations")
 }
@@ -241,6 +253,7 @@ model Contact {
   documents    Document[]
   bookings     Booking[]
   invoices     Invoice[]
+  campaignRecipients CampaignRecipient[]
 
   @@unique([organizationId, email])
   @@index([organizationId])
@@ -1103,4 +1116,240 @@ model Folder {
   @@index([organizationId])
   @@index([parentId])
   @@map("folders")
+}
+
+// =============================================================================
+// CAMPAIGNS (EMAIL MARKETING)
+// =============================================================================
+
+/// Campaign represents an email marketing campaign
+model Campaign {
+  id             String         @id @default(cuid())
+  organizationId String
+  name           String
+  subject        String
+  content        String         @db.Text
+  status         CampaignStatus @default(DRAFT)
+  
+  // Recipients
+  recipientType  RecipientType  @default(ALL_CONTACTS)
+  segmentIds     String[]       // Contact segment IDs if using segments
+  
+  // Scheduling
+  scheduledAt    DateTime?      // When to send (null = send immediately)
+  sentAt         DateTime?      // When it was actually sent
+  
+  // Analytics
+  totalRecipients Int           @default(0)
+  sentCount       Int           @default(0)
+  deliveredCount  Int           @default(0)
+  openedCount     Int           @default(0)
+  clickedCount    Int           @default(0)
+  bouncedCount    Int           @default(0)
+  unsubscribedCount Int         @default(0)
+  
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  recipients     CampaignRecipient[]
+  
+  @@index([organizationId])
+  @@index([status])
+  @@map("campaigns")
+}
+
+/// CampaignRecipient tracks individual email sends and engagement
+model CampaignRecipient {
+  id         String   @id @default(cuid())
+  campaignId String
+  contactId  String?
+  email      String   // Store email in case contact is deleted
+  status     RecipientStatus @default(PENDING)
+  
+  // Engagement tracking
+  openedAt   DateTime?
+  clickedAt  DateTime?
+  bouncedAt  DateTime?
+  unsubscribedAt DateTime?
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  contact    Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  
+  @@index([campaignId])
+  @@index([contactId])
+  @@index([email])
+  @@map("campaign_recipients")
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  CANCELLED
+}
+
+enum RecipientType {
+  ALL_CONTACTS
+  SEGMENT
+  MANUAL
+}
+
+enum RecipientStatus {
+  PENDING
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  UNSUBSCRIBED
+  FAILED
+}
+
+// =============================================================================
+// SOCIAL MEDIA (POST SCHEDULING)
+// =============================================================================
+
+/// SocialPost represents a scheduled social media post
+model SocialPost {
+  id             String         @id @default(cuid())
+  organizationId String
+  platform       SocialPlatform
+  content        String         @db.Text
+  mediaUrls      String[]       // URLs to images/videos
+  
+  // Scheduling
+  status         PostStatus     @default(DRAFT)
+  scheduledAt    DateTime?      // When to publish
+  publishedAt    DateTime?      // When it was actually published
+  postId         String?        // External platform post ID
+  
+  // Analytics
+  likes          Int            @default(0)
+  shares         Int            @default(0)
+  comments       Int            @default(0)
+  impressions    Int            @default(0)
+  
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  @@index([organizationId])
+  @@index([platform])
+  @@index([status])
+  @@index([scheduledAt])
+  @@map("social_posts")
+}
+
+enum SocialPlatform {
+  TWITTER
+  LINKEDIN
+  INSTAGRAM
+  FACEBOOK
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHING
+  PUBLISHED
+  FAILED
+  CANCELLED
+}
+
+// =============================================================================
+// STRATEGY (OKRs AND GOALS)
+// =============================================================================
+
+/// Objective represents a high-level goal (OKR framework)
+model Objective {
+  id             String   @id @default(cuid())
+  organizationId String
+  title          String
+  description    String?  @db.Text
+  quarter        String   // e.g., "Q1 2024"
+  status         ObjectiveStatus @default(ACTIVE)
+  
+  // Progress tracking
+  progress       Int      @default(0) // 0-100
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  keyResults     KeyResult[]
+  
+  @@index([organizationId])
+  @@index([quarter])
+  @@map("objectives")
+}
+
+/// KeyResult represents a measurable outcome for an Objective
+model KeyResult {
+  id          String   @id @default(cuid())
+  objectiveId String
+  title       String
+  description String?  @db.Text
+  target      String   // e.g., "100", "$50k", "25%"
+  current     String   @default("0")
+  unit        String   // e.g., "users", "revenue", "percentage"
+  status      KeyResultStatus @default(ON_TRACK)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  objective   Objective @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
+  
+  @@index([objectiveId])
+  @@map("key_results")
+}
+
+enum ObjectiveStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum KeyResultStatus {
+  ON_TRACK
+  AT_RISK
+  BEHIND
+  COMPLETED
+}
+
+// =============================================================================
+// CALENDAR INTEGRATION
+// =============================================================================
+
+/// CalendarIntegration stores OAuth tokens for calendar providers
+model CalendarIntegration {
+  id             String   @id @default(cuid())
+  organizationId String
+  provider       CalendarProvider
+  accessToken    String   @db.Text
+  refreshToken   String?  @db.Text
+  expiresAt      DateTime?
+  calendarId     String?  // External calendar ID
+  isActive       Boolean  @default(true)
+  syncEnabled    Boolean  @default(true)
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  @@unique([organizationId, provider])
+  @@index([organizationId])
+  @@map("calendar_integrations")
+}
+
+enum CalendarProvider {
+  GOOGLE
+  OUTLOOK
+  APPLE
 }

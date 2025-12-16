@@ -12,23 +12,90 @@ export function AIAssistantVoice() {
   const [response, setResponse] = useState('')
   const [processing, setProcessing] = useState(false)
 
-  const handleStartListening = () => {
+  const handleStartListening = async () => {
     setIsListening(true)
     setTranscript('')
     setResponse('')
 
-    // Simulate voice recognition
-    setTimeout(() => {
-      setTranscript('Brief me on my schedule for today')
-      setIsListening(false)
-      setProcessing(true)
+    try {
+      // Use Web Speech API for voice recognition
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
+        const recognition = new SpeechRecognition()
+        
+        recognition.continuous = false
+        recognition.interimResults = false
+        recognition.lang = 'en-US'
 
-      // Simulate AI processing
-      setTimeout(() => {
-        setResponse('You have 3 appointments scheduled for today:\n\n1. 10:00 AM - Consultation with Acme Corp\n2. 2:00 PM - Follow-up call with Tech Solutions\n3. 4:30 PM - Project review meeting')
-        setProcessing(false)
-      }, 2000)
-    }, 3000)
+        recognition.onresult = async (event: any) => {
+          const transcriptText = event.results[0][0].transcript
+          setTranscript(transcriptText)
+          setIsListening(false)
+          setProcessing(true)
+
+          try {
+            // Call AI API with transcript
+            const response = await fetch('/api/ai/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: transcriptText }),
+            })
+
+            const data = await response.json()
+            if (data.success) {
+              setResponse(data.response)
+            } else {
+              setResponse(data.fallback || 'I apologize, but I couldn\'t process that request.')
+            }
+          } catch (error) {
+            console.error('Failed to get AI response:', error)
+            setResponse('I apologize, but I\'m having trouble processing your request right now.')
+          } finally {
+            setProcessing(false)
+          }
+        }
+
+        recognition.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error)
+          setIsListening(false)
+          setProcessing(false)
+          setResponse('Sorry, I couldn\'t understand that. Please try again.')
+        }
+
+        recognition.onend = () => {
+          setIsListening(false)
+        }
+
+        recognition.start()
+      } else {
+        // Fallback: simulate voice recognition if browser doesn't support it
+        setTimeout(() => {
+          setTranscript('Brief me on my schedule for today')
+          setIsListening(false)
+          setProcessing(true)
+
+          fetch('/api/ai/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: 'Brief me on my schedule for today' }),
+          })
+            .then(res => res.json())
+            .then(data => {
+              setResponse(data.success ? data.response : (data.fallback || 'I apologize, but I couldn\'t process that request.'))
+              setProcessing(false)
+            })
+            .catch(error => {
+              console.error('Failed to get AI response:', error)
+              setResponse('I apologize, but I\'m having trouble processing your request right now.')
+              setProcessing(false)
+            })
+        }, 2000)
+      }
+    } catch (error) {
+      console.error('Voice recognition error:', error)
+      setIsListening(false)
+      setResponse('Sorry, voice recognition is not available in your browser.')
+    }
   }
 
   const handleStopListening = () => {

@@ -3,12 +3,19 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Save, Send, Sparkles, Eye } from 'lucide-react'
+import { ArrowLeft, Save, Send, Sparkles, Eye, Loader2, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Document, DocumentStatus } from '@prisma/client'
 import { updateDocument } from '@/lib/documents/actions'
 
@@ -32,6 +39,9 @@ export function DocumentEditor({ document: initialDocument }: DocumentEditorProp
   )
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [aiGenerating, setAiGenerating] = useState(false)
+  const [showAIDialog, setShowAIDialog] = useState(false)
+  const [aiPrompt, setAiPrompt] = useState('')
 
   const handleSave = async () => {
     setSaving(true)
@@ -60,8 +70,45 @@ export function DocumentEditor({ document: initialDocument }: DocumentEditorProp
   }
 
   const handleAIGenerate = () => {
-    // TODO: Implement AI content generation
-    alert('AI content generation coming soon!')
+    setShowAIDialog(true)
+  }
+
+  const handleAISubmit = async () => {
+    if (!aiPrompt.trim()) return
+
+    setAiGenerating(true)
+    try {
+      const response = await fetch('/api/ai/generate-document', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: aiPrompt,
+          clientName: document.contact 
+            ? `${document.contact.firstName} ${document.contact.lastName}`
+            : undefined,
+          documentType: document.type,
+          existingContent: content,
+        }),
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        // Append or replace content based on user preference
+        const newContent = content 
+          ? `${content}\n\n${data.content}`
+          : data.content
+        setContent(newContent)
+        setShowAIDialog(false)
+        setAiPrompt('')
+      } else {
+        alert(data.error || 'Failed to generate content')
+      }
+    } catch (error) {
+      console.error('Failed to generate AI content:', error)
+      alert('Failed to generate content. Please try again.')
+    } finally {
+      setAiGenerating(false)
+    }
   }
 
   return (
@@ -188,6 +235,59 @@ export function DocumentEditor({ document: initialDocument }: DocumentEditorProp
           </div>
         </CardContent>
       </Card>
+
+      {/* AI Generation Dialog */}
+      <Dialog open={showAIDialog} onOpenChange={setShowAIDialog}>
+        <DialogContent className="rounded-2xl">
+          <DialogHeader>
+            <DialogTitle>AI Magic Writer</DialogTitle>
+            <DialogDescription>
+              Describe what you'd like to generate. The AI will create professional content for your document.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>What would you like to generate?</Label>
+              <Textarea
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                placeholder="e.g., Write an executive summary for this proposal, Create a contract introduction, Generate a project scope section..."
+                className="mt-1 min-h-[100px]"
+                rows={4}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowAIDialog(false)
+                  setAiPrompt('')
+                }}
+                className="rounded-xl"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleAISubmit}
+                disabled={!aiPrompt.trim() || aiGenerating}
+                className="rounded-xl"
+              >
+                {aiGenerating ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Generate
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
