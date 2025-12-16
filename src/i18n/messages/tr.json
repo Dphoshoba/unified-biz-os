@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Özellikler",
+    "solutions": "Çözümler",
+    "pricing": "Fiyatlandırma",
+    "signIn": "Giriş Yap",
+    "getStarted": "Başlayın"
+  },
+  "hero": {
+    "badge": "Yeni: Gemini Live Ses Asistanı",
+    "title": "Modern İşletmeler İçin",
+    "titleHighlight": "İşletim Sistemi",
+    "description": "Unified-Biz-OS (İşletim Sistemi), CRM, Proje Yönetimi, Finans ve AI Otomasyonunuzu tek bir sorunsuz platformda birleştirir. Uygulamalar arasında geçiş yapmayı bırakın. Büyümeye başlayın.",
+    "ctaPrimary": "Başlayın",
+    "ctaSecondary": "Özellikleri Görüntüle"
+  },
+  "features": {
+    "title": "Ölçeklendirmek için ihtiyacınız olan her şey",
+    "subtitle": "Tasarım gereği modüler. Varsayılan olarak güçlü.",
+    "crm": {
+      "title": "CRM",
+      "description": "Görsel boru hatlarıyla potansiyel müşterileri takip edin ve müşteri ilişkilerini yönetin."
+    },
+    "payments": {
+      "title": "Ödemeler",
+      "description": "Faturalandırma, abonelikler ve finansal raporlama yerleşik."
+    },
+    "ai": {
+      "title": "AI Asistanı",
+      "description": "Gemini destekli içgörüler, taslak oluşturma ve ses kontrolü."
+    },
+    "projects": {
+      "title": "Projeler",
+      "description": "Ekipleri yolda tutun ve iş akışlarını verimli bir şekilde yönetin."
+    },
+    "secure": {
+      "title": "Güvenli",
+      "description": "Gelişmiş şifreleme ile kurumsal düzeyde güvenlik."
+    },
+    "global": {
+      "title": "Küresel",
+      "description": "Çoklu para birimi ve çoklu dil desteği."
+    }
+  },
+  "solutions": {
+    "badge": "ÇÖZÜMLER",
+    "title": "Belirli iş akışınıza göre uyarlanmış",
+    "description": "İster yalın bir startup, ister büyüyen bir işletme olun, Unified-Biz-OS ekip yapınıza ve hedeflerinize uyum sağlar.",
+    "sales": {
+      "title": "Satış Ekipleri İçin",
+      "description": "AI destekli içgörülerle takipleri otomatikleştirin ve anlaşmaları daha hızlı kapatın."
+    },
+    "agencies": {
+      "title": "Ajanslar İçin",
+      "description": "Birden fazla müşteri, proje ve faturalandırmayı tek bir görünümde yönetin."
+    },
+    "developers": {
+      "title": "Geliştiriciler İçin",
+      "description": "API aracılığıyla entegre edin ve özel modüllerle işlevselliği genişletin."
+    }
+  },
+  "pricing": {
+    "title": "Basit, şeffaf fiyatlandırma",
+    "subtitle": "İşletmenizin ihtiyaçlarına uygun planı seçin.",
+    "starter": {
+      "name": "Başlangıç Planı",
+      "description": "Bireyler ve küçük ekipler için mükemmel",
+      "price": "$29",
+      "period": "/ay",
+      "features": [
+        "1 Kullanıcı",
+        "Temel CRM",
+        "50 AI Kredisi/ay",
+        "Topluluk Desteği"
+      ],
+      "cta": "Başlayın"
+    },
+    "pro": {
+      "name": "Pro Plan",
+      "description": "Gelişmiş ihtiyaçları olan büyüyen işletmeler için",
+      "price": "$99",
+      "period": "/ay",
+      "features": [
+        "5 Kullanıcı",
+        "Gelişmiş Otomasyon",
+        "Sınırsız AI Kredisi",
+        "Öncelikli Destek",
+        "Özel Alan Adı"
+      ],
+      "cta": "Başlayın",
+      "badge": "EN POPÜLER"
+    },
+    "enterprise": {
+      "name": "Kurumsal Plan",
+      "description": "Büyük organizasyonlar için özel çözümler",
+      "price": "$299",
+      "period": "/ay",
+      "features": [
+        "Sınırsız Kullanıcı",
+        "SSO ve Gelişmiş Güvenlik",
+        "Özel Başarı Yöneticisi",
+        "API Erişimi",
+        "Denetim Günlükleri"
+      ],
+      "cta": "Başlayın"
+    }
+  },
+  "cta": {
+    "title": "İşletmenizi optimize etmeye hazır mısınız?",
+    "subtitle": "Unified-Biz-OS kullanan binlerce şirkete katılın.",
+    "primary": "Başlayın",
+    "secondary": "Satışla İletişime Geçin",
+    "disclaimer": "Kredi kartı gerekmez. İstediğiniz zaman iptal edin."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Tüm hakları saklıdır."
+  }
+}
+

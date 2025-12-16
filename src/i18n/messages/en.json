@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Features",
+    "solutions": "Solutions",
+    "pricing": "Pricing",
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "badge": "New: Gemini Live Voice Assistant",
+    "title": "The Operating System",
+    "titleHighlight": "for Modern Business",
+    "description": "Unified-Biz-OS (Operating System) unifies your CRM, Project Management, Finance, and AI Automation into one seamless platform. Stop switching apps. Start growing.",
+    "ctaPrimary": "Get Started",
+    "ctaSecondary": "View Features"
+  },
+  "features": {
+    "title": "Everything you need to scale",
+    "subtitle": "Modular by design. Powerful by default.",
+    "crm": {
+      "title": "CRM",
+      "description": "Track leads and manage customer relationships with visual pipelines."
+    },
+    "payments": {
+      "title": "Payments",
+      "description": "Invoicing, subscriptions, and financial reporting built-in."
+    },
+    "ai": {
+      "title": "AI Assistant",
+      "description": "Gemini-powered insights, drafting, and voice control."
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Keep teams on track and manage workflows efficiently."
+    },
+    "secure": {
+      "title": "Secure",
+      "description": "Enterprise-grade security with advanced encryption."
+    },
+    "global": {
+      "title": "Global",
+      "description": "Multi-currency and multi-language support."
+    }
+  },
+  "solutions": {
+    "badge": "SOLUTIONS",
+    "title": "Tailored for your specific workflow",
+    "description": "Whether you're a lean startup or a scaling enterprise, Unified-Biz-OS adapts to your team structure and goals.",
+    "sales": {
+      "title": "For Sales Teams",
+      "description": "Automate follow-ups and close deals faster with AI-driven insights."
+    },
+    "agencies": {
+      "title": "For Agencies",
+      "description": "Manage multiple clients, projects, and billing in a single view."
+    },
+    "developers": {
+      "title": "For Developers",
+      "description": "Integrate via API and extend functionality with custom modules."
+    }
+  },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Choose the plan that fits your business needs.",
+    "starter": {
+      "name": "Starter Plan",
+      "description": "Perfect for individuals and small teams",
+      "price": "$29",
+      "period": "/mo",
+      "features": [
+        "1 User",
+        "Basic CRM",
+        "50 AI Credits/mo",
+        "Community Support"
+      ],
+      "cta": "Get Started"
+    },
+    "pro": {
+      "name": "Pro Plan",
+      "description": "For growing businesses with advanced needs",
+      "price": "$99",
+      "period": "/mo",
+      "features": [
+        "5 Users",
+        "Advanced Automations",
+        "Unlimited AI Credits",
+        "Priority Support",
+        "Custom Domain"
+      ],
+      "cta": "Get Started",
+      "badge": "MOST POPULAR"
+    },
+    "enterprise": {
+      "name": "Enterprise Plan",
+      "description": "Custom solutions for large organizations",
+      "price": "$299",
+      "period": "/mo",
+      "features": [
+        "Unlimited Users",
+        "SSO & Advanced Security",
+        "Dedicated Success Manager",
+        "API Access",
+        "Audit Logs"
+      ],
+      "cta": "Get Started"
+    }
+  },
+  "cta": {
+    "title": "Ready to streamline your business?",
+    "subtitle": "Join thousands of companies running on Unified-Biz-OS.",
+    "primary": "Get Started",
+    "secondary": "Contact Sales",
+    "disclaimer": "No credit card required. Cancel anytime."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. All rights reserved."
+  }
+}
+

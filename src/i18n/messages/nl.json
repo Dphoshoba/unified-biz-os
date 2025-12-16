@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Functies",
+    "solutions": "Oplossingen",
+    "pricing": "Prijzen",
+    "signIn": "Inloggen",
+    "getStarted": "Aan de slag"
+  },
+  "hero": {
+    "badge": "Nieuw: Gemini Live Spraakassistent",
+    "title": "Het Besturingssysteem",
+    "titleHighlight": "voor Moderne Bedrijven",
+    "description": "Unified-Biz-OS (Besturingssysteem) verenigt uw CRM, Projectbeheer, Financiën en AI-automatisering in één naadloos platform. Stop met het wisselen van apps. Begin met groeien.",
+    "ctaPrimary": "Aan de slag",
+    "ctaSecondary": "Bekijk functies"
+  },
+  "features": {
+    "title": "Alles wat u nodig heeft om te schalen",
+    "subtitle": "Modulair door ontwerp. Krachtig standaard.",
+    "crm": {
+      "title": "CRM",
+      "description": "Volg leads en beheer klantrelaties met visuele pipelines."
+    },
+    "payments": {
+      "title": "Betalingen",
+      "description": "Facturering, abonnementen en financiële rapportage ingebouwd."
+    },
+    "ai": {
+      "title": "AI-assistent",
+      "description": "Gemini-aangedreven inzichten, opstellen en spraakbesturing."
+    },
+    "projects": {
+      "title": "Projecten",
+      "description": "Houd teams op koers en beheer workflows efficiënt."
+    },
+    "secure": {
+      "title": "Beveiligd",
+      "description": "Bedrijfsniveau beveiliging met geavanceerde encryptie."
+    },
+    "global": {
+      "title": "Globaal",
+      "description": "Ondersteuning voor meerdere valuta's en talen."
+    }
+  },
+  "solutions": {
+    "badge": "OPLOSSINGEN",
+    "title": "Afgestemd op uw specifieke workflow",
+    "description": "Of u nu een lean startup of een groeiend bedrijf bent, Unified-Biz-OS past zich aan uw teamstructuur en doelen aan.",
+    "sales": {
+      "title": "Voor Verkoopteams",
+      "description": "Automatiseer follow-ups en sluit deals sneller af met AI-aangedreven inzichten."
+    },
+    "agencies": {
+      "title": "Voor Agentschappen",
+      "description": "Beheer meerdere klanten, projecten en facturering in één weergave."
+    },
+    "developers": {
+      "title": "Voor Ontwikkelaars",
+      "description": "Integreer via API en breid functionaliteit uit met aangepaste modules."
+    }
+  },
+  "pricing": {
+    "title": "Eenvoudige, transparante prijzen",
+    "subtitle": "Kies het plan dat bij uw bedrijfsbehoeften past.",
+    "starter": {
+      "name": "Starter Plan",
+      "description": "Perfect voor individuen en kleine teams",
+      "price": "$29",
+      "period": "/maand",
+      "features": [
+        "1 Gebruiker",
+        "Basis CRM",
+        "50 AI-credits/maand",
+        "Community Support"
+      ],
+      "cta": "Aan de slag"
+    },
+    "pro": {
+      "name": "Pro Plan",
+      "description": "Voor groeiende bedrijven met geavanceerde behoeften",
+      "price": "$99",
+      "period": "/maand",
+      "features": [
+        "5 Gebruikers",
+        "Geavanceerde Automatisering",
+        "Onbeperkte AI-credits",
+        "Prioriteitsondersteuning",
+        "Aangepast Domein"
+      ],
+      "cta": "Aan de slag",
+      "badge": "MEEST POPULAIR"
+    },
+    "enterprise": {
+      "name": "Enterprise Plan",
+      "description": "Aangepaste oplossingen voor grote organisaties",
+      "price": "$299",
+      "period": "/maand",
+      "features": [
+        "Onbeperkte Gebruikers",
+        "SSO en Geavanceerde Beveiliging",
+        "Toegewijde Succesmanager",
+        "API-toegang",
+        "Auditlogs"
+      ],
+      "cta": "Aan de slag"
+    }
+  },
+  "cta": {
+    "title": "Klaar om uw bedrijf te optimaliseren?",
+    "subtitle": "Sluit u aan bij duizenden bedrijven die Unified-Biz-OS gebruiken.",
+    "primary": "Aan de slag",
+    "secondary": "Neem contact op met Verkoop",
+    "disclaimer": "Geen creditcard vereist. Altijd opzegbaar."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Alle rechten voorbehouden."
+  }
+}
+

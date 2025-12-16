@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Funktioner",
+    "solutions": "Lösningar",
+    "pricing": "Priser",
+    "signIn": "Logga in",
+    "getStarted": "Kom igång"
+  },
+  "hero": {
+    "badge": "Nyhet: Gemini Live Röstassistent",
+    "title": "Operativsystemet",
+    "titleHighlight": "för moderna företag",
+    "description": "Unified-Biz-OS (Operativsystem) förenar din CRM, projektledning, ekonomi och AI-automatisering i en sömlös plattform. Sluta växla mellan appar. Börja växa.",
+    "ctaPrimary": "Kom igång",
+    "ctaSecondary": "Visa funktioner"
+  },
+  "features": {
+    "title": "Allt du behöver för att skala",
+    "subtitle": "Modulär i design. Kraftfull som standard.",
+    "crm": {
+      "title": "CRM",
+      "description": "Spåra leads och hantera kundrelationer med visuella pipelines."
+    },
+    "payments": {
+      "title": "Betalningar",
+      "description": "Fakturering, prenumerationer och finansiell rapportering inbyggt."
+    },
+    "ai": {
+      "title": "AI-assistent",
+      "description": "Gemini-drivna insikter, utkast och röststyrning."
+    },
+    "projects": {
+      "title": "Projekt",
+      "description": "Håll team på rätt spår och hantera arbetsflöden effektivt."
+    },
+    "secure": {
+      "title": "Säker",
+      "description": "Företagsnivå säkerhet med avancerad kryptering."
+    },
+    "global": {
+      "title": "Global",
+      "description": "Stöd för flera valutor och språk."
+    }
+  },
+  "solutions": {
+    "badge": "LÖSNINGAR",
+    "title": "Anpassad för ditt specifika arbetsflöde",
+    "description": "Oavsett om du är ett smidigt startup eller ett växande företag, anpassar sig Unified-Biz-OS till din teamstruktur och mål.",
+    "sales": {
+      "title": "För säljteam",
+      "description": "Automatisera uppföljningar och stäng affärer snabbare med AI-drivna insikter."
+    },
+    "agencies": {
+      "title": "För byråer",
+      "description": "Hantera flera kunder, projekt och fakturering i en enda vy."
+    },
+    "developers": {
+      "title": "För utvecklare",
+      "description": "Integrera via API och utöka funktionalitet med anpassade moduler."
+    }
+  },
+  "pricing": {
+    "title": "Enkla, transparenta priser",
+    "subtitle": "Välj den plan som passar dina affärsbehov.",
+    "starter": {
+      "name": "Starter-plan",
+      "description": "Perfekt för individer och små team",
+      "price": "$29",
+      "period": "/månad",
+      "features": [
+        "1 Användare",
+        "Grundläggande CRM",
+        "50 AI-krediter/månad",
+        "Community-support"
+      ],
+      "cta": "Kom igång"
+    },
+    "pro": {
+      "name": "Pro-plan",
+      "description": "För växande företag med avancerade behov",
+      "price": "$99",
+      "period": "/månad",
+      "features": [
+        "5 Användare",
+        "Avancerad automatisering",
+        "Obegränsade AI-krediter",
+        "Prioriterat stöd",
+        "Anpassad domän"
+      ],
+      "cta": "Kom igång",
+      "badge": "MEST POPULÄR"
+    },
+    "enterprise": {
+      "name": "Enterprise-plan",
+      "description": "Anpassade lösningar för stora organisationer",
+      "price": "$299",
+      "period": "/månad",
+      "features": [
+        "Obegränsade användare",
+        "SSO och avancerad säkerhet",
+        "Dedikerad framgångsmanager",
+        "API-åtkomst",
+        "Revisionsloggar"
+      ],
+      "cta": "Kom igång"
+    }
+  },
+  "cta": {
+    "title": "Redo att effektivisera ditt företag?",
+    "subtitle": "Gå med tusentals företag som använder Unified-Biz-OS.",
+    "primary": "Kom igång",
+    "secondary": "Kontakta försäljning",
+    "disclaimer": "Inget kreditkort krävs. Avbryt när som helst."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Alla rättigheter förbehållna."
+  }
+}
+

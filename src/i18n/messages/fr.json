@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Fonctionnalités",
+    "solutions": "Solutions",
+    "pricing": "Tarifs",
+    "signIn": "Se connecter",
+    "getStarted": "Commencer"
+  },
+  "hero": {
+    "badge": "Nouveau : Assistant Vocal Gemini Live",
+    "title": "Le Système d'Exploitation",
+    "titleHighlight": "pour les Entreprises Modernes",
+    "description": "Unified-Biz-OS (Système d'Exploitation) unifie votre CRM, Gestion de Projets, Finance et Automatisation IA en une plateforme fluide. Arrêtez de changer d'applications. Commencez à grandir.",
+    "ctaPrimary": "Commencer",
+    "ctaSecondary": "Voir les Fonctionnalités"
+  },
+  "features": {
+    "title": "Tout ce dont vous avez besoin pour évoluer",
+    "subtitle": "Modulaire par conception. Puissant par défaut.",
+    "crm": {
+      "title": "CRM",
+      "description": "Suivez les prospects et gérez les relations clients avec des pipelines visuels."
+    },
+    "payments": {
+      "title": "Paiements",
+      "description": "Facturation, abonnements et rapports financiers intégrés."
+    },
+    "ai": {
+      "title": "Assistant IA",
+      "description": "Insights, rédaction et contrôle vocal alimentés par Gemini."
+    },
+    "projects": {
+      "title": "Projets",
+      "description": "Gardez les équipes sur la bonne voie et gérez les flux de travail efficacement."
+    },
+    "secure": {
+      "title": "Sécurisé",
+      "description": "Sécurité de niveau entreprise avec chiffrement avancé."
+    },
+    "global": {
+      "title": "Global",
+      "description": "Support multi-devises et multi-langues."
+    }
+  },
+  "solutions": {
+    "badge": "SOLUTIONS",
+    "title": "Adapté à votre flux de travail spécifique",
+    "description": "Que vous soyez une startup agile ou une entreprise en croissance, Unified-Biz-OS s'adapte à la structure et aux objectifs de votre équipe.",
+    "sales": {
+      "title": "Pour les Équipes Commerciales",
+      "description": "Automatisez les relances et concluez des affaires plus rapidement avec des insights alimentés par l'IA."
+    },
+    "agencies": {
+      "title": "Pour les Agences",
+      "description": "Gérez plusieurs clients, projets et facturation en une seule vue."
+    },
+    "developers": {
+      "title": "Pour les Développeurs",
+      "description": "Intégrez via API et étendez les fonctionnalités avec des modules personnalisés."
+    }
+  },
+  "pricing": {
+    "title": "Tarifs simples et transparents",
+    "subtitle": "Choisissez le plan qui correspond aux besoins de votre entreprise.",
+    "starter": {
+      "name": "Plan Starter",
+      "description": "Parfait pour les particuliers et les petites équipes",
+      "price": "$29",
+      "period": "/mois",
+      "features": [
+        "1 Utilisateur",
+        "CRM de Base",
+        "50 Crédits IA/mois",
+        "Support Communautaire"
+      ],
+      "cta": "Commencer"
+    },
+    "pro": {
+      "name": "Plan Pro",
+      "description": "Pour les entreprises en croissance avec des besoins avancés",
+      "price": "$99",
+      "period": "/mois",
+      "features": [
+        "5 Utilisateurs",
+        "Automatisations Avancées",
+        "Crédits IA Illimités",
+        "Support Prioritaire",
+        "Domaine Personnalisé"
+      ],
+      "cta": "Commencer",
+      "badge": "LE PLUS POPULAIRE"
+    },
+    "enterprise": {
+      "name": "Plan Enterprise",
+      "description": "Solutions personnalisées pour les grandes organisations",
+      "price": "$299",
+      "period": "/mois",
+      "features": [
+        "Utilisateurs Illimités",
+        "SSO et Sécurité Avancée",
+        "Gestionnaire de Succès Dédié",
+        "Accès API",
+        "Journaux d'Audit"
+      ],
+      "cta": "Commencer"
+    }
+  },
+  "cta": {
+    "title": "Prêt à optimiser votre entreprise ?",
+    "subtitle": "Rejoignez des milliers d'entreprises utilisant Unified-Biz-OS.",
+    "primary": "Commencer",
+    "secondary": "Contacter les Ventes",
+    "disclaimer": "Aucune carte de crédit requise. Annulez à tout moment."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Tous droits réservés."
+  }
+}
+

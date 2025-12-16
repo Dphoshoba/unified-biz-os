@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Funktioner",
+    "solutions": "Løsninger",
+    "pricing": "Priser",
+    "signIn": "Log ind",
+    "getStarted": "Kom i gang"
+  },
+  "hero": {
+    "badge": "Nyhed: Gemini Live Stemmeassistent",
+    "title": "Operativsystemet",
+    "titleHighlight": "til moderne virksomheder",
+    "description": "Unified-Biz-OS (Operativsystem) forener din CRM, projektledelse, økonomi og AI-automatisering i én sømløs platform. Stop med at skifte apps. Begynd at vokse.",
+    "ctaPrimary": "Kom i gang",
+    "ctaSecondary": "Se funktioner"
+  },
+  "features": {
+    "title": "Alt hvad du har brug for til at skalere",
+    "subtitle": "Modulær i design. Kraftfuld som standard.",
+    "crm": {
+      "title": "CRM",
+      "description": "Spor leads og administrer kundeforhold med visuelle pipelines."
+    },
+    "payments": {
+      "title": "Betalinger",
+      "description": "Fakturering, abonnementer og finansiel rapportering indbygget."
+    },
+    "ai": {
+      "title": "AI-assistent",
+      "description": "Gemini-drevne indsigter, udkast og stemmestyring."
+    },
+    "projects": {
+      "title": "Projekter",
+      "description": "Hold hold på rette spor og administrer arbejdsgange effektivt."
+    },
+    "secure": {
+      "title": "Sikker",
+      "description": "Virksomhedsniveau sikkerhed med avanceret kryptering."
+    },
+    "global": {
+      "title": "Global",
+      "description": "Support til flere valutaer og sprog."
+    }
+  },
+  "solutions": {
+    "badge": "LØSNINGER",
+    "title": "Tilpasset din specifikke arbejdsgang",
+    "description": "Uanset om du er en slank startup eller en voksende virksomhed, tilpasser Unified-Biz-OS sig din teamstruktur og mål.",
+    "sales": {
+      "title": "Til salgsteam",
+      "description": "Automatiser opfølgninger og luk aftaler hurtigere med AI-drevne indsigter."
+    },
+    "agencies": {
+      "title": "Til bureauer",
+      "description": "Administrer flere kunder, projekter og fakturering i én visning."
+    },
+    "developers": {
+      "title": "Til udviklere",
+      "description": "Integrer via API og udvid funktionalitet med tilpassede moduler."
+    }
+  },
+  "pricing": {
+    "title": "Enkle, gennemsigtige priser",
+    "subtitle": "Vælg den plan, der passer til dine forretningsbehov.",
+    "starter": {
+      "name": "Starter-plan",
+      "description": "Perfekt til enkeltpersoner og små hold",
+      "price": "$29",
+      "period": "/måned",
+      "features": [
+        "1 Bruger",
+        "Grundlæggende CRM",
+        "50 AI-kreditter/måned",
+        "Fællesskabsstøtte"
+      ],
+      "cta": "Kom i gang"
+    },
+    "pro": {
+      "name": "Pro-plan",
+      "description": "Til voksende virksomheder med avancerede behov",
+      "price": "$99",
+      "period": "/måned",
+      "features": [
+        "5 Brugere",
+        "Avanceret automatisering",
+        "Ubegrænsede AI-kreditter",
+        "Prioriteret support",
+        "Tilpasset domæne"
+      ],
+      "cta": "Kom i gang",
+      "badge": "MEST POPULÆRE"
+    },
+    "enterprise": {
+      "name": "Enterprise-plan",
+      "description": "Tilpassede løsninger til store organisationer",
+      "price": "$299",
+      "period": "/måned",
+      "features": [
+        "Ubegrænsede brugere",
+        "SSO og avanceret sikkerhed",
+        "Dedikeret succesmanager",
+        "API-adgang",
+        "Revisionslogge"
+      ],
+      "cta": "Kom i gang"
+    }
+  },
+  "cta": {
+    "title": "Klar til at strømlinjeforme din virksomhed?",
+    "subtitle": "Tilslut dig tusindvis af virksomheder, der bruger Unified-Biz-OS.",
+    "primary": "Kom i gang",
+    "secondary": "Kontakt salg",
+    "disclaimer": "Intet kreditkort påkrævet. Annuller når som helst."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Alle rettigheder forbeholdes."
+  }
+}
+

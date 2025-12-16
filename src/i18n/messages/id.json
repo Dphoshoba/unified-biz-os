@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Fitur",
+    "solutions": "Solusi",
+    "pricing": "Harga",
+    "signIn": "Masuk",
+    "getStarted": "Mulai"
+  },
+  "hero": {
+    "badge": "Baru: Asisten Suara Gemini Live",
+    "title": "Sistem Operasi",
+    "titleHighlight": "untuk Bisnis Modern",
+    "description": "Unified-Biz-OS (Sistem Operasi) menyatukan CRM, Manajemen Proyek, Keuangan, dan Otomasi AI Anda ke dalam satu platform yang mulus. Berhenti beralih aplikasi. Mulai berkembang.",
+    "ctaPrimary": "Mulai",
+    "ctaSecondary": "Lihat Fitur"
+  },
+  "features": {
+    "title": "Semua yang Anda butuhkan untuk berkembang",
+    "subtitle": "Modular dalam desain. Kuat secara default.",
+    "crm": {
+      "title": "CRM",
+      "description": "Lacak prospek dan kelola hubungan pelanggan dengan pipeline visual."
+    },
+    "payments": {
+      "title": "Pembayaran",
+      "description": "Faktur, langganan, dan pelaporan keuangan terintegrasi."
+    },
+    "ai": {
+      "title": "Asisten AI",
+      "description": "Wawasan, penyusunan, dan kontrol suara yang didukung Gemini."
+    },
+    "projects": {
+      "title": "Proyek",
+      "description": "Jaga tim tetap pada jalurnya dan kelola alur kerja secara efisien."
+    },
+    "secure": {
+      "title": "Aman",
+      "description": "Keamanan tingkat perusahaan dengan enkripsi lanjutan."
+    },
+    "global": {
+      "title": "Global",
+      "description": "Dukungan multi-mata uang dan multi-bahasa."
+    }
+  },
+  "solutions": {
+    "badge": "SOLUSI",
+    "title": "Disesuaikan untuk alur kerja spesifik Anda",
+    "description": "Baik Anda startup ramping atau perusahaan yang berkembang, Unified-Biz-OS menyesuaikan dengan struktur dan tujuan tim Anda.",
+    "sales": {
+      "title": "Untuk Tim Penjualan",
+      "description": "Otomatiskan tindak lanjut dan tutup kesepakatan lebih cepat dengan wawasan yang didukung AI."
+    },
+    "agencies": {
+      "title": "Untuk Agensi",
+      "description": "Kelola beberapa klien, proyek, dan penagihan dalam satu tampilan."
+    },
+    "developers": {
+      "title": "Untuk Pengembang",
+      "description": "Integrasikan melalui API dan perluas fungsionalitas dengan modul kustom."
+    }
+  },
+  "pricing": {
+    "title": "Harga sederhana dan transparan",
+    "subtitle": "Pilih paket yang sesuai dengan kebutuhan bisnis Anda.",
+    "starter": {
+      "name": "Paket Starter",
+      "description": "Sempurna untuk individu dan tim kecil",
+      "price": "$29",
+      "period": "/bulan",
+      "features": [
+        "1 Pengguna",
+        "CRM Dasar",
+        "50 Kredit AI/bulan",
+        "Dukungan Komunitas"
+      ],
+      "cta": "Mulai"
+    },
+    "pro": {
+      "name": "Paket Pro",
+      "description": "Untuk bisnis yang berkembang dengan kebutuhan lanjutan",
+      "price": "$99",
+      "period": "/bulan",
+      "features": [
+        "5 Pengguna",
+        "Otomasi Lanjutan",
+        "Kredit AI Tak Terbatas",
+        "Dukungan Prioritas",
+        "Domain Kustom"
+      ],
+      "cta": "Mulai",
+      "badge": "PALING POPULER"
+    },
+    "enterprise": {
+      "name": "Paket Enterprise",
+      "description": "Solusi kustom untuk organisasi besar",
+      "price": "$299",
+      "period": "/bulan",
+      "features": [
+        "Pengguna Tak Terbatas",
+        "SSO & Keamanan Lanjutan",
+        "Manajer Sukses Didedikasikan",
+        "Akses API",
+        "Log Audit"
+      ],
+      "cta": "Mulai"
+    }
+  },
+  "cta": {
+    "title": "Siap untuk merampingkan bisnis Anda?",
+    "subtitle": "Bergabunglah dengan ribuan perusahaan yang menggunakan Unified-Biz-OS.",
+    "primary": "Mulai",
+    "secondary": "Hubungi Penjualan",
+    "disclaimer": "Tidak perlu kartu kredit. Batalkan kapan saja."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Hak cipta dilindungi."
+  }
+}
+

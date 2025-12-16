@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "功能",
+    "solutions": "解决方案",
+    "pricing": "定价",
+    "signIn": "登录",
+    "getStarted": "开始使用"
+  },
+  "hero": {
+    "badge": "新功能：Gemini Live 语音助手",
+    "title": "现代企业的",
+    "titleHighlight": "操作系统",
+    "description": "Unified-Biz-OS（操作系统）将您的CRM、项目管理、财务和AI自动化统一到一个无缝平台。停止切换应用。开始成长。",
+    "ctaPrimary": "开始使用",
+    "ctaSecondary": "查看功能"
+  },
+  "features": {
+    "title": "扩展所需的一切",
+    "subtitle": "模块化设计。默认强大。",
+    "crm": {
+      "title": "CRM",
+      "description": "通过可视化管道跟踪潜在客户并管理客户关系。"
+    },
+    "payments": {
+      "title": "支付",
+      "description": "内置发票、订阅和财务报告。"
+    },
+    "ai": {
+      "title": "AI助手",
+      "description": "Gemini驱动的洞察、起草和语音控制。"
+    },
+    "projects": {
+      "title": "项目",
+      "description": "让团队保持正轨并高效管理工作流程。"
+    },
+    "secure": {
+      "title": "安全",
+      "description": "企业级安全，具有高级加密。"
+    },
+    "global": {
+      "title": "全球化",
+      "description": "多货币和多语言支持。"
+    }
+  },
+  "solutions": {
+    "badge": "解决方案",
+    "title": "为您的特定工作流程量身定制",
+    "description": "无论您是精益初创公司还是成长型企业，Unified-Biz-OS都能适应您的团队结构和目标。",
+    "sales": {
+      "title": "面向销售团队",
+      "description": "通过AI驱动的洞察自动跟进并更快完成交易。"
+    },
+    "agencies": {
+      "title": "面向代理商",
+      "description": "在单一视图中管理多个客户、项目和计费。"
+    },
+    "developers": {
+      "title": "面向开发者",
+      "description": "通过API集成并使用自定义模块扩展功能。"
+    }
+  },
+  "pricing": {
+    "title": "简单透明的定价",
+    "subtitle": "选择适合您业务需求的计划。",
+    "starter": {
+      "name": "入门计划",
+      "description": "适合个人和小团队",
+      "price": "$29",
+      "period": "/月",
+      "features": [
+        "1个用户",
+        "基础CRM",
+        "50个AI积分/月",
+        "社区支持"
+      ],
+      "cta": "开始使用"
+    },
+    "pro": {
+      "name": "专业计划",
+      "description": "适合有高级需求的成长型企业",
+      "price": "$99",
+      "period": "/月",
+      "features": [
+        "5个用户",
+        "高级自动化",
+        "无限AI积分",
+        "优先支持",
+        "自定义域名"
+      ],
+      "cta": "开始使用",
+      "badge": "最受欢迎"
+    },
+    "enterprise": {
+      "name": "企业计划",
+      "description": "面向大型组织的定制解决方案",
+      "price": "$299",
+      "period": "/月",
+      "features": [
+        "无限用户",
+        "SSO和高级安全",
+        "专属成功经理",
+        "API访问",
+        "审计日志"
+      ],
+      "cta": "开始使用"
+    }
+  },
+  "cta": {
+    "title": "准备好优化您的业务了吗？",
+    "subtitle": "加入数千家使用Unified-Biz-OS的公司。",
+    "primary": "开始使用",
+    "secondary": "联系销售",
+    "disclaimer": "无需信用卡。随时取消。"
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. 保留所有权利。"
+  }
+}
+

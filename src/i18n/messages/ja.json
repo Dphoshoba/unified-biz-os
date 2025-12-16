@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "機能",
+    "solutions": "ソリューション",
+    "pricing": "料金",
+    "signIn": "サインイン",
+    "getStarted": "始める"
+  },
+  "hero": {
+    "badge": "新機能：Gemini Live音声アシスタント",
+    "title": "現代ビジネスのための",
+    "titleHighlight": "オペレーティングシステム",
+    "description": "Unified-Biz-OS（オペレーティングシステム）は、CRM、プロジェクト管理、財務、AI自動化を1つのシームレスなプラットフォームに統合します。アプリを切り替えるのをやめましょう。成長を始めましょう。",
+    "ctaPrimary": "始める",
+    "ctaSecondary": "機能を見る"
+  },
+  "features": {
+    "title": "スケールに必要なすべて",
+    "subtitle": "設計によりモジュール化。デフォルトで強力。",
+    "crm": {
+      "title": "CRM",
+      "description": "ビジュアルパイプラインでリードを追跡し、顧客関係を管理します。"
+    },
+    "payments": {
+      "title": "支払い",
+      "description": "請求、サブスクリプション、財務レポートが組み込まれています。"
+    },
+    "ai": {
+      "title": "AIアシスタント",
+      "description": "Geminiによる洞察、作成、音声制御。"
+    },
+    "projects": {
+      "title": "プロジェクト",
+      "description": "チームを軌道に乗せ、ワークフローを効率的に管理します。"
+    },
+    "secure": {
+      "title": "セキュア",
+      "description": "高度な暗号化によるエンタープライズレベルのセキュリティ。"
+    },
+    "global": {
+      "title": "グローバル",
+      "description": "複数通貨および複数言語のサポート。"
+    }
+  },
+  "solutions": {
+    "badge": "ソリューション",
+    "title": "特定のワークフローに合わせて調整",
+    "description": "リーンスタートアップであろうと成長企業であろうと、Unified-Biz-OSはチーム構造と目標に適応します。",
+    "sales": {
+      "title": "営業チーム向け",
+      "description": "AI駆動の洞察でフォローアップを自動化し、取引をより迅速にクローズします。"
+    },
+    "agencies": {
+      "title": "代理店向け",
+      "description": "単一のビューで複数のクライアント、プロジェクト、請求を管理します。"
+    },
+    "developers": {
+      "title": "開発者向け",
+      "description": "API経由で統合し、カスタムモジュールで機能を拡張します。"
+    }
+  },
+  "pricing": {
+    "title": "シンプルで透明な料金",
+    "subtitle": "ビジネスのニーズに合うプランを選択してください。",
+    "starter": {
+      "name": "スタータープラン",
+      "description": "個人や小規模チームに最適",
+      "price": "$29",
+      "period": "/月",
+      "features": [
+        "1ユーザー",
+        "基本CRM",
+        "50 AIクレジット/月",
+        "コミュニティサポート"
+      ],
+      "cta": "始める"
+    },
+    "pro": {
+      "name": "プロプラン",
+      "description": "高度なニーズを持つ成長企業向け",
+      "price": "$99",
+      "period": "/月",
+      "features": [
+        "5ユーザー",
+        "高度な自動化",
+        "無制限AIクレジット",
+        "優先サポート",
+        "カスタムドメイン"
+      ],
+      "cta": "始める",
+      "badge": "最も人気"
+    },
+    "enterprise": {
+      "name": "エンタープライズプラン",
+      "description": "大規模組織向けのカスタムソリューション",
+      "price": "$299",
+      "period": "/月",
+      "features": [
+        "無制限ユーザー",
+        "SSOと高度なセキュリティ",
+        "専任成功マネージャー",
+        "APIアクセス",
+        "監査ログ"
+      ],
+      "cta": "始める"
+    }
+  },
+  "cta": {
+    "title": "ビジネスを最適化する準備はできましたか？",
+    "subtitle": "Unified-Biz-OSを使用している何千もの企業に参加してください。",
+    "primary": "始める",
+    "secondary": "営業に連絡",
+    "disclaimer": "クレジットカード不要。いつでもキャンセル可能。"
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. 全著作権所有。"
+  }
+}
+

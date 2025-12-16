@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "features": "Recursos",
+    "solutions": "Soluções",
+    "pricing": "Preços",
+    "signIn": "Entrar",
+    "getStarted": "Começar"
+  },
+  "hero": {
+    "badge": "Novo: Assistente de Voz Gemini Live",
+    "title": "O Sistema Operacional",
+    "titleHighlight": "para Negócios Modernos",
+    "description": "Unified-Biz-OS (Sistema Operacional) unifica seu CRM, Gerenciamento de Projetos, Finanças e Automação de IA em uma plataforma perfeita. Pare de trocar de aplicativos. Comece a crescer.",
+    "ctaPrimary": "Começar",
+    "ctaSecondary": "Ver Recursos"
+  },
+  "features": {
+    "title": "Tudo que você precisa para escalar",
+    "subtitle": "Modular por design. Poderoso por padrão.",
+    "crm": {
+      "title": "CRM",
+      "description": "Rastreie leads e gerencie relacionamentos com clientes usando pipelines visuais."
+    },
+    "payments": {
+      "title": "Pagamentos",
+      "description": "Faturamento, assinaturas e relatórios financeiros integrados."
+    },
+    "ai": {
+      "title": "Assistente de IA",
+      "description": "Insights, redação e controle de voz alimentados por Gemini."
+    },
+    "projects": {
+      "title": "Projetos",
+      "description": "Mantenha as equipes no caminho certo e gerencie fluxos de trabalho com eficiência."
+    },
+    "secure": {
+      "title": "Seguro",
+      "description": "Segurança de nível empresarial com criptografia avançada."
+    },
+    "global": {
+      "title": "Global",
+      "description": "Suporte multi-moeda e multi-idioma."
+    }
+  },
+  "solutions": {
+    "badge": "SOLUÇÕES",
+    "title": "Adaptado ao seu fluxo de trabalho específico",
+    "description": "Seja você uma startup enxuta ou uma empresa em crescimento, o Unified-Biz-OS se adapta à estrutura e objetivos da sua equipe.",
+    "sales": {
+      "title": "Para Equipes de Vendas",
+      "description": "Automatize acompanhamentos e feche negócios mais rápido com insights alimentados por IA."
+    },
+    "agencies": {
+      "title": "Para Agências",
+      "description": "Gerencie vários clientes, projetos e faturamento em uma única visualização."
+    },
+    "developers": {
+      "title": "Para Desenvolvedores",
+      "description": "Integre via API e estenda a funcionalidade com módulos personalizados."
+    }
+  },
+  "pricing": {
+    "title": "Preços simples e transparentes",
+    "subtitle": "Escolha o plano que se adapta às necessidades do seu negócio.",
+    "starter": {
+      "name": "Plano Starter",
+      "description": "Perfeito para indivíduos e pequenas equipes",
+      "price": "$29",
+      "period": "/mês",
+      "features": [
+        "1 Usuário",
+        "CRM Básico",
+        "50 Créditos de IA/mês",
+        "Suporte da Comunidade"
+      ],
+      "cta": "Começar"
+    },
+    "pro": {
+      "name": "Plano Pro",
+      "description": "Para empresas em crescimento com necessidades avançadas",
+      "price": "$99",
+      "period": "/mês",
+      "features": [
+        "5 Usuários",
+        "Automações Avançadas",
+        "Créditos de IA Ilimitados",
+        "Suporte Prioritário",
+        "Domínio Personalizado"
+      ],
+      "cta": "Começar",
+      "badge": "MAIS POPULAR"
+    },
+    "enterprise": {
+      "name": "Plano Enterprise",
+      "description": "Soluções personalizadas para grandes organizações",
+      "price": "$299",
+      "period": "/mês",
+      "features": [
+        "Usuários Ilimitados",
+        "SSO e Segurança Avançada",
+        "Gerente de Sucesso Dedicado",
+        "Acesso à API",
+        "Logs de Auditoria"
+      ],
+      "cta": "Começar"
+    }
+  },
+  "cta": {
+    "title": "Pronto para otimizar seu negócio?",
+    "subtitle": "Junte-se a milhares de empresas usando Unified-Biz-OS.",
+    "primary": "Começar",
+    "secondary": "Falar com Vendas",
+    "disclaimer": "Sem necessidade de cartão de crédito. Cancele a qualquer momento."
+  },
+  "footer": {
+    "copyright": "© 2024 Eternal Echoes & Visions Inc. Todos os direitos reservados."
+  }
+}
+
