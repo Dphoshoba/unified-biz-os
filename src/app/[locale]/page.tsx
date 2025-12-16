@@ -266,7 +266,30 @@ export default async function LandingPage({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Free Plan */}
+            <div className="bg-white rounded-xl p-8 border border-gray-200">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('pricing.free.name')}</h3>
+              <p className="text-gray-600 mb-6">{t('pricing.free.description')}</p>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-900">{t('pricing.free.price')}</span>
+                <span className="text-gray-600">{t('pricing.free.period')}</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                {t.raw('pricing.free.features').map((feature: string) => (
+                  <li key={feature} className="flex items-center">
+                    <Check className="h-5 w-5 text-[#6366f1] mr-3" />
+                    <span className="text-gray-700 text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/auth/sign-up" className="block">
+                <Button variant="outline" className="w-full">
+                  {t('pricing.free.cta')}
+                </Button>
+              </Link>
+            </div>
+
             {/* Starter Plan */}
             <div className="bg-white rounded-xl p-8 border border-gray-200">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('pricing.starter.name')}</h3>
@@ -279,7 +302,7 @@ export default async function LandingPage({
                 {t.raw('pricing.starter.features').map((feature: string) => (
                   <li key={feature} className="flex items-center">
                     <Check className="h-5 w-5 text-[#6366f1] mr-3" />
-                    <span className="text-gray-700">{feature}</span>
+                    <span className="text-gray-700 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -307,7 +330,7 @@ export default async function LandingPage({
                 {t.raw('pricing.pro.features').map((feature: string) => (
                   <li key={feature} className="flex items-center">
                     <Check className="h-5 w-5 text-[#6366f1] mr-3" />
-                    <span className="text-gray-700">{feature}</span>
+                    <span className="text-gray-700 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -330,7 +353,7 @@ export default async function LandingPage({
                 {t.raw('pricing.enterprise.features').map((feature: string) => (
                   <li key={feature} className="flex items-center">
                     <Check className="h-5 w-5 text-[#6366f1] mr-3" />
-                    <span className="text-gray-700">{feature}</span>
+                    <span className="text-gray-700 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>

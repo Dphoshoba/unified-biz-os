@@ -73,6 +73,19 @@ export async function createOrganization(
           role: 'OWNER',
         },
       },
+      subscription: {
+        create: {
+          plan: 'FREE',
+          maxContacts: 50,
+          maxDeals: 10,
+          maxProjects: 3,
+          maxDocuments: 10,
+          maxAutomations: 2,
+          maxAICredits: 10,
+          maxStorageMB: 100,
+          maxUsers: 1,
+        },
+      },
     },
     include: {
       memberships: {

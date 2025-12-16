@@ -62,6 +62,24 @@
   "pricing": {
     "title": "簡單透明的定價",
     "subtitle": "選擇適合您業務需求的方案。",
+    "free": {
+      "name": "免費",
+      "description": "非常適合試用平台",
+      "price": "$0",
+      "period": "/月",
+      "features": [
+        "1個用戶",
+        "50個聯絡人",
+        "10筆交易",
+        "3個專案",
+        "10個文件",
+        "2個自動化",
+        "10個AI積分/月",
+        "100 MB儲存空間",
+        "社群支援"
+      ],
+      "cta": "免費開始"
+    },
     "starter": {
       "name": "入門方案",
       "description": "適合個人和小團隊",
@@ -116,4 +134,5 @@
     "copyright": "© 2024 Eternal Echoes & Visions Inc. 保留所有權利。"
   }
 }
+
 

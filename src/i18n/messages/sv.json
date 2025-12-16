@@ -62,6 +62,24 @@
   "pricing": {
     "title": "Enkla, transparenta priser",
     "subtitle": "Välj den plan som passar dina affärsbehov.",
+    "free": {
+      "name": "Gratis",
+      "description": "Perfekt för att prova plattformen",
+      "price": "$0",
+      "period": "/månad",
+      "features": [
+        "1 Användare",
+        "50 Kontakter",
+        "10 Affärer",
+        "3 Projekt",
+        "10 Dokument",
+        "2 Automatiseringar",
+        "10 AI-krediter/månad",
+        "100 MB Lagring",
+        "Community Support"
+      ],
+      "cta": "Kom Igång Gratis"
+    },
     "starter": {
       "name": "Starter-plan",
       "description": "Perfekt för individer och små team",
@@ -116,4 +134,5 @@
     "copyright": "© 2024 Eternal Echoes & Visions Inc. Alla rättigheter förbehållna."
   }
 }
+
 

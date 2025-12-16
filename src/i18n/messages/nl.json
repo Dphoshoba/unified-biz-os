@@ -62,6 +62,24 @@
   "pricing": {
     "title": "Eenvoudige, transparante prijzen",
     "subtitle": "Kies het plan dat bij uw bedrijfsbehoeften past.",
+    "free": {
+      "name": "Gratis",
+      "description": "Perfect om het platform uit te proberen",
+      "price": "$0",
+      "period": "/maand",
+      "features": [
+        "1 Gebruiker",
+        "50 Contacten",
+        "10 Deals",
+        "3 Projecten",
+        "10 Documenten",
+        "2 Automatiseringen",
+        "10 AI Credits/maand",
+        "100 MB Opslag",
+        "Community Ondersteuning"
+      ],
+      "cta": "Gratis Starten"
+    },
     "starter": {
       "name": "Starter Plan",
       "description": "Perfect voor individuen en kleine teams",
@@ -116,4 +134,5 @@
     "copyright": "© 2024 Eternal Echoes & Visions Inc. Alle rechten voorbehouden."
   }
 }
+
 

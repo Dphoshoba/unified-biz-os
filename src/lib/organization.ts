@@ -168,7 +168,7 @@ export async function createOrganization(data: {
     throw new Error('Organization slug already taken')
   }
 
-  // Create organization with owner membership
+  // Create organization with owner membership and free subscription
   const organization = await db.organization.create({
     data: {
       name: data.name,
@@ -178,6 +178,19 @@ export async function createOrganization(data: {
         create: {
           userId: session.user.id,
           role: 'OWNER',
+        },
+      },
+      subscription: {
+        create: {
+          plan: 'FREE',
+          maxContacts: 50,
+          maxDeals: 10,
+          maxProjects: 3,
+          maxDocuments: 10,
+          maxAutomations: 2,
+          maxAICredits: 10,
+          maxStorageMB: 100,
+          maxUsers: 1,
         },
       },
     },

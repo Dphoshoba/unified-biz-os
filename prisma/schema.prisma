@@ -173,6 +173,9 @@ model Organization {
   // Calendar integration
   calendarIntegrations CalendarIntegration[]
 
+  // Subscription
+  subscription Subscription?
+
   @@map("organizations")
 }
 
@@ -1352,4 +1355,68 @@ enum CalendarProvider {
   GOOGLE
   OUTLOOK
   APPLE
+}
+
+// =============================================================================
+// SUBSCRIPTIONS & PLANS
+// =============================================================================
+
+/// Subscription tracks an organization's plan and usage limits
+model Subscription {
+  id             String   @id @default(cuid())
+  organizationId String   @unique
+  plan           PlanType @default(FREE)
+  
+  // Stripe subscription ID if paid
+  stripeSubscriptionId String?
+  stripeCustomerId     String?
+  
+  // Usage tracking (reset monthly)
+  contactsUsed      Int @default(0)
+  dealsUsed         Int @default(0)
+  projectsUsed      Int @default(0)
+  documentsUsed     Int @default(0)
+  automationsUsed   Int @default(0)
+  aiCreditsUsed     Int @default(0)
+  storageUsedMB      Int @default(0) // Storage in MB
+  
+  // Usage limits based on plan
+  maxContacts      Int @default(50)
+  maxDeals         Int @default(10)
+  maxProjects      Int @default(3)
+  maxDocuments     Int @default(10)
+  maxAutomations   Int @default(2)
+  maxAICredits      Int @default(10) // Per month
+  maxStorageMB      Int @default(100) // 100 MB
+  maxUsers          Int @default(1)
+  
+  // Billing
+  status           SubscriptionStatus @default(ACTIVE)
+  currentPeriodEnd DateTime?
+  cancelAtPeriodEnd Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([plan])
+  @@index([status])
+  @@map("subscriptions")
+}
+
+enum PlanType {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
 }

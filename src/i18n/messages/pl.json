@@ -62,6 +62,24 @@
   "pricing": {
     "title": "Proste, przejrzyste ceny",
     "subtitle": "Wybierz plan, który odpowiada potrzebom Twojej firmy.",
+    "free": {
+      "name": "Darmowy",
+      "description": "Idealny do wypróbowania platformy",
+      "price": "$0",
+      "period": "/miesiąc",
+      "features": [
+        "1 Użytkownik",
+        "50 Kontaktów",
+        "10 Transakcji",
+        "3 Projekty",
+        "10 Dokumentów",
+        "2 Automatyzacje",
+        "10 Kredytów AI/miesiąc",
+        "100 MB Pamięci",
+        "Wsparcie Społeczności"
+      ],
+      "cta": "Zacznij Za Darmo"
+    },
     "starter": {
       "name": "Plan Starter",
       "description": "Idealny dla osób i małych zespołów",
@@ -116,4 +134,5 @@
     "copyright": "© 2024 Eternal Echoes & Visions Inc. Wszelkie prawa zastrzeżone."
   }
 }
+
 

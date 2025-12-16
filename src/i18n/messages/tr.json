@@ -62,6 +62,24 @@
   "pricing": {
     "title": "Basit, şeffaf fiyatlandırma",
     "subtitle": "İşletmenizin ihtiyaçlarına uygun planı seçin.",
+    "free": {
+      "name": "Ücretsiz",
+      "description": "Platformu denemek için mükemmel",
+      "price": "$0",
+      "period": "/ay",
+      "features": [
+        "1 Kullanıcı",
+        "50 Kişi",
+        "10 Anlaşma",
+        "3 Proje",
+        "10 Belge",
+        "2 Otomasyon",
+        "10 AI Kredisi/ay",
+        "100 MB Depolama",
+        "Topluluk Desteği"
+      ],
+      "cta": "Ücretsiz Başla"
+    },
     "starter": {
       "name": "Başlangıç Planı",
       "description": "Bireyler ve küçük ekipler için mükemmel",
@@ -116,4 +134,5 @@
     "copyright": "© 2024 Eternal Echoes & Visions Inc. Tüm hakları saklıdır."
   }
 }
+
 

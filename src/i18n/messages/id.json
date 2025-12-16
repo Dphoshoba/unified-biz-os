@@ -62,6 +62,24 @@
   "pricing": {
     "title": "Harga sederhana dan transparan",
     "subtitle": "Pilih paket yang sesuai dengan kebutuhan bisnis Anda.",
+    "free": {
+      "name": "Gratis",
+      "description": "Sempurna untuk mencoba platform",
+      "price": "$0",
+      "period": "/bulan",
+      "features": [
+        "1 Pengguna",
+        "50 Kontak",
+        "10 Kesepakatan",
+        "3 Proyek",
+        "10 Dokumen",
+        "2 Otomasi",
+        "10 Kredit AI/bulan",
+        "100 MB Penyimpanan",
+        "Dukungan Komunitas"
+      ],
+      "cta": "Mulai Gratis"
+    },
     "starter": {
       "name": "Paket Starter",
       "description": "Sempurna untuk individu dan tim kecil",
@@ -116,4 +134,5 @@
     "copyright": "© 2024 Eternal Echoes & Visions Inc. Hak cipta dilindungi."
   }
 }
+
 

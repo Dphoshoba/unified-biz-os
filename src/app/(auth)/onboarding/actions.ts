@@ -96,7 +96,7 @@ export async function createFirstOrganization(formData: FormData) {
   }
 
   try {
-    // Create organization with owner membership
+    // Create organization with owner membership and free subscription
     const organization = await db.organization.create({
       data: {
         name,
@@ -105,6 +105,19 @@ export async function createFirstOrganization(formData: FormData) {
           create: {
             userId: session.user.id,
             role: 'OWNER',
+          },
+        },
+        subscription: {
+          create: {
+            plan: 'FREE',
+            maxContacts: 50,
+            maxDeals: 10,
+            maxProjects: 3,
+            maxDocuments: 10,
+            maxAutomations: 2,
+            maxAICredits: 10,
+            maxStorageMB: 100,
+            maxUsers: 1,
           },
         },
       },
