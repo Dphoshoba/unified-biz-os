@@ -63,7 +63,7 @@ export function OrgSwitcher({
   if (collapsed) {
     return (
       <img 
-        src={activeOrganization?.logo || '/logo.png.png'} 
+        src={activeOrganization?.logo || '/logo.png'} 
         alt={activeOrganization?.name || 'Eternal Echoes & Visions'}
         className="h-10 w-10 rounded-lg object-contain"
         onError={(e) => {
