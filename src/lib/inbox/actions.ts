@@ -10,7 +10,7 @@ export type EmailMessage = {
   preview: string
   body?: string
   unread: boolean
-  timestamp: Date
+  timestamp: Date | string  // Can be Date or ISO string
   contactId?: string
   dealId?: string
   invoiceId?: string
@@ -42,7 +42,7 @@ Could we schedule a call to discuss the next steps? I'm available most afternoon
 Best regards,
 John`,
       unread: true,
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
       contactId: 'contact-1',
       dealId: 'deal-1',
     },
@@ -58,7 +58,7 @@ Thank you for the invoice. Payment has been processed and should appear in your 
 Best regards,
 Jane`,
       unread: false,
-      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
+      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
       contactId: 'contact-2',
       invoiceId: 'invoice-1',
     },
@@ -74,7 +74,7 @@ Would you be available for a meeting next week to discuss potential collaboratio
 Best,
 Bob`,
       unread: true,
-      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
+      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
       contactId: 'contact-3',
     },
   ]

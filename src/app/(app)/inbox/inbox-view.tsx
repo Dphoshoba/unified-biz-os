@@ -132,7 +132,7 @@ Best regards`)
               </div>
             </div>
             <Badge variant="outline">
-              {message.timestamp.toLocaleDateString()}
+              {new Date(message.timestamp).toLocaleDateString()}
             </Badge>
           </div>
         </CardHeader>

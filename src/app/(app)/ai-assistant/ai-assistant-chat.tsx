@@ -118,7 +118,7 @@ export function AIAssistantChat() {
               <CardContent className="p-3">
                 <p className="text-sm whitespace-pre-line">{message.content}</p>
                 <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString()}
+                  {new Date(message.timestamp).toLocaleTimeString()}
                 </p>
               </CardContent>
             </Card>

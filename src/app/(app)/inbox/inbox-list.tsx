@@ -116,7 +116,7 @@ export function InboxList({ selectedId }: { selectedId?: string }) {
                         {message.preview}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {message.timestamp.toLocaleDateString()}
+                        {new Date(message.timestamp).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
